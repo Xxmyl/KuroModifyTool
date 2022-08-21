@@ -179,7 +179,16 @@ namespace KuroModifyTool.KuroTable
         public uint Param6;
     }
 
-    public class TextData
+    public class ShopEffect
+    {
+        [FieldIndexAttr(Index = 0)]
+        public uint TradeItemID;
+
+        [FieldIndexAttr(Index = 1)]
+        public uint RequirAmount;
+    }
+
+    public class BottomData
     {
         public int StartIndex;
 
@@ -187,9 +196,7 @@ namespace KuroModifyTool.KuroTable
 
         public List<ulong> Offsets;
 
-        public List<string> Texts;
-
-        public TextData(int sinx, int einx)
+        public BottomData(int sinx, int einx)
         {
             StartIndex = sinx;
             EndIndex = einx;
@@ -199,6 +206,17 @@ namespace KuroModifyTool.KuroTable
         {
             SubHeader node = Array.Find<SubHeader>(nodes, n => new string(n.Name).StartsWith(name));
             return (int)(node.DataOffset + node.DataLength * node.NodeCount);
+        }
+    }
+
+    public class TextData : BottomData
+    {
+        public List<string> Texts;
+
+        public TextData(int sinx, int einx) : base(sinx, einx)
+        {
+            StartIndex = sinx;
+            EndIndex = einx;
         }
     }
 

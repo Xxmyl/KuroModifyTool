@@ -220,13 +220,13 @@ namespace KuroModifyTool.KuroTable
             }
 
             //ItemTableData
-            Items = StaticField.MyBS.GetNode(Nodes, "ItemTableData", typeof(ItemTableData[]), buffer, ref i);
+            Items = StaticField.MyBS.GetNode(Nodes, typeof(ItemTableData[]), buffer, ref i);
 
             //ItemKindParam2
-            KindParams = StaticField.MyBS.GetNode(Nodes, "ItemKindParam2", typeof(ItemKindParam2[]), buffer, ref i);
+            KindParams = StaticField.MyBS.GetNode(Nodes, typeof(ItemKindParam2[]), buffer, ref i);
 
             //QuartzParam
-            QuartzParams = StaticField.MyBS.GetNode(Nodes, "QuartzParam", typeof(QuartzParam[]), buffer, ref i);
+            QuartzParams = StaticField.MyBS.GetNode(Nodes, typeof(QuartzParam[]), buffer, ref i);
 
 
             ItemText = new TextData(TextData.GetTextStartOff(Nodes, "QuartzParam"), buffer.Length);

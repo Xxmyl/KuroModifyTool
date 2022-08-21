@@ -185,6 +185,8 @@ namespace KuroModifyTool
 
             artsDTable = new ArtsDriverTable();
 
+            ShopTable shop = new ShopTable(itemTable);
+
             MW.Dispatcher.BeginInvoke(new Action(() =>
             {
                 MW.itemList.Items.Clear();

@@ -148,16 +148,16 @@ namespace KuroModifyTool.KuroTable
             }
 
             //SkillParam
-            Skills = StaticField.MyBS.GetNode(Nodes, "SkillParam", typeof(SkillParam[]), buffer, ref i);
+            Skills = StaticField.MyBS.GetNode(Nodes, typeof(SkillParam[]), buffer, ref i);
 
             //SkillGetParam
-            GetParams = StaticField.MyBS.GetNode(Nodes, "SkillGetParam", typeof(SkillGetParam[]), buffer, ref i);
+            GetParams = StaticField.MyBS.GetNode(Nodes, typeof(SkillGetParam[]), buffer, ref i);
 
             //SkillChangeParam
-            ChangeParams = StaticField.MyBS.GetNode(Nodes, "SkillChangeParam", typeof(SkillChangeParam[]), buffer, ref i);
+            ChangeParams = StaticField.MyBS.GetNode(Nodes, typeof(SkillChangeParam[]), buffer, ref i);
 
             //SkillGrendelParam
-            GrendelParams = StaticField.MyBS.GetNode(Nodes, "SkillGrendelParam", typeof(SkillGrendelParam[]), buffer, ref i);
+            GrendelParams = StaticField.MyBS.GetNode(Nodes, typeof(SkillGrendelParam[]), buffer, ref i);
 
 
             SkillText = new TextData(TextData.GetTextStartOff(Nodes, "SkillGrendelParam"), buffer.Length);

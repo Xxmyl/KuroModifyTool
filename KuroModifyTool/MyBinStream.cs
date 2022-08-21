@@ -177,14 +177,14 @@ namespace KuroModifyTool
             }
         }
 
-        public dynamic GetNode(SubHeader[] nodes, string name, Type type, byte[] buffer, ref int i)
+        public dynamic GetNode(SubHeader[] nodes, Type type, byte[] buffer, ref int i)
         {
             if (!type.IsArray)
             {
                 return null;
             }
-
-            SubHeader node = Array.Find<SubHeader>(nodes, n => new string(n.Name).StartsWith(name));
+            
+            SubHeader node = Array.Find<SubHeader>(nodes, n => new string(n.Name).StartsWith(type.GetElementType().Name));
             i = (int)node.DataOffset;
 
             Array arr = Array.CreateInstance(type.GetElementType(), node.NodeCount);

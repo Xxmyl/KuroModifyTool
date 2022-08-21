@@ -195,13 +195,13 @@ namespace KuroModifyTool.KuroTable
             }
 
 
-            BaseParams = StaticField.MyBS.GetNode(Nodes, "HollowCoreBaseParam", typeof(HollowCoreBaseParam[]), buffer, ref i);
-            LevelParams = StaticField.MyBS.GetNode(Nodes, "HollowCoreLevelParam", typeof(HollowCoreLevelParam[]), buffer, ref i);
-            EffParams = StaticField.MyBS.GetNode(Nodes, "HollowCoreEffParam", typeof(HollowCoreEffParam[]), buffer, ref i);
-            EffTexts = StaticField.MyBS.GetNode(Nodes, "HollowCoreEffText", typeof(HollowCoreEffText[]), buffer, ref i);
-            ConvertLParams = StaticField.MyBS.GetNode(Nodes, "HollowCoreConvertLevelParam", typeof(HollowCoreConvertLevelParam[]), buffer, ref i);
-            CalcLParams = StaticField.MyBS.GetNode(Nodes, "HollowCoreCalcLevelParam", typeof(HollowCoreCalcLevelParam[]), buffer, ref i);
-            Voices = StaticField.MyBS.GetNode(Nodes, "HollowCoreVoice", typeof(HollowCoreVoice[]), buffer, ref i);
+            BaseParams = StaticField.MyBS.GetNode(Nodes, typeof(HollowCoreBaseParam[]), buffer, ref i);
+            LevelParams = StaticField.MyBS.GetNode(Nodes, typeof(HollowCoreLevelParam[]), buffer, ref i);
+            EffParams = StaticField.MyBS.GetNode(Nodes, typeof(HollowCoreEffParam[]), buffer, ref i);
+            EffTexts = StaticField.MyBS.GetNode(Nodes, typeof(HollowCoreEffText[]), buffer, ref i);
+            ConvertLParams = StaticField.MyBS.GetNode(Nodes, typeof(HollowCoreConvertLevelParam[]), buffer, ref i);
+            CalcLParams = StaticField.MyBS.GetNode(Nodes, typeof(HollowCoreCalcLevelParam[]), buffer, ref i);
+            Voices = StaticField.MyBS.GetNode(Nodes, typeof(HollowCoreVoice[]), buffer, ref i);
 
 
             HCText = new TextData(TextData.GetTextStartOff(Nodes, "HollowCoreVoice"), (int)Voices.First().VoiceIDOff);

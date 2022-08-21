@@ -76,9 +76,9 @@ namespace KuroModifyTool.KuroTable
                 return;
             }
 
-            SlotOpenRates = StaticField.MyBS.GetNode(Nodes, "SlotOpenRate", typeof(SlotOpenRate[]), buffer, ref i);
-            BaseTableDatas = StaticField.MyBS.GetNode(Nodes, "DriverBaseTableData", typeof(DriverBaseTableData[]), buffer, ref i);
-            ArtsTableDatas = StaticField.MyBS.GetNode(Nodes, "DriverArtsTableData", typeof(DriverArtsTableData[]), buffer, ref i);
+            SlotOpenRates = StaticField.MyBS.GetNode(Nodes, typeof(SlotOpenRate[]), buffer, ref i);
+            BaseTableDatas = StaticField.MyBS.GetNode(Nodes, typeof(DriverBaseTableData[]), buffer, ref i);
+            ArtsTableDatas = StaticField.MyBS.GetNode(Nodes, typeof(DriverArtsTableData[]), buffer, ref i);
         }
 
         public override void Save()

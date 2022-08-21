@@ -139,7 +139,7 @@ namespace KuroModifyTool.KuroTable
             }
 
             //ShardSkillParam
-            ShardSkills = StaticField.MyBS.GetNode(Nodes, "ShardSkillParam", typeof(ShardSkillParam[]), buffer, ref i);
+            ShardSkills = StaticField.MyBS.GetNode(Nodes, typeof(ShardSkillParam[]), buffer, ref i);
 
             ShardSText = new TextData(TextData.GetTextStartOff(Nodes, "ShardSkillParam"), buffer.Length);
             StaticField.MyBS.GetTextData(buffer, ShardSText);
