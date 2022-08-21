@@ -1,0 +1,1017 @@
+﻿<Window x:Class="KuroModifyTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KuroModifyTool"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        mc:Ignorable="d"
+        Title="黎轨静态修改工具" Height="900" Width="1600" WindowStartupLocation="CenterScreen" WindowState="Normal" ResizeMode="CanResize" WindowStyle="SingleBorderWindow" Icon="/img/icon.jpg" Loaded="Window_Loaded" MaxWidth="1600" MaxHeight="900" SizeToContent="Width" MinWidth="1600" MinHeight="900">
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Width="32" Margin="2,2,0,0" Source="/img/icon.jpg" Stretch="Fill"/>
+        <Menu VerticalAlignment="Top" Height="32" Margin="40,0,0,0"/>
+        <ToolBar Height="32" Margin="0,37,0,0" VerticalAlignment="Top">
+            <Button Height="28" Width="28" Click="SaveBtn_Click">
+                <Button.Background>
+                    <ImageBrush ImageSource="/img/save.png"/>
+                </Button.Background>
+            </Button>
+            <Button Height="28" Width="28">
+                <Button.Background>
+                    <ImageBrush ImageSource="/img/flush.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="changeBtn" Height="28" Width="28" IsEnabled="False" Click="changeBtn_Click">
+                <Button.Background>
+                    <ImageBrush ImageSource="/img/change.png"/>
+                </Button.Background>
+            </Button>
+        </ToolBar>
+        <hc:TabControl Margin="0,72,0,0" TabItemWidth="150">
+            <hc:TabItem Header="TBLFile" IsSelected="True">
+                <TabControl x:Name="tblTabC" TabStripPlacement="Left" Margin="5,5,5,5" SelectionChanged="tblTabC_SelectionChanged">
+                    <TabItem x:Name="itemTabI" Header="Item" Width="100">
+                        <Grid x:Name="itemPanel" Background="#FFE5E5E5" Tag="ShowPanel">
+                            <ListBox x:Name="itemList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="1273,0,10,0" SelectionChanged="List_SelectionChanged" SelectionMode="Extended" Tag="ItemsList"/>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="519,135,508,20">
+                                <Grid ShowGridLines="True">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                    </Grid.RowDefinitions>
+                                    <GroupBox Header="效果1" Margin="0,1,0,1" Height="118" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff1TB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp12TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1" Tag=""/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp11TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Tag=""/>
+                                            <hc:TextBox x:Name="effp13TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1" Tag=""/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果2" Margin="0,1,0,1" Height="118" Grid.Row="1" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff2TB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp22TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1" Tag=""/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp21TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Tag=""/>
+                                            <hc:TextBox x:Name="effp23TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1" Tag=""/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果3" Margin="0,1,0,1" Height="118" Grid.Row="2" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff3TB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp32TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1" Tag=""/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp31TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Tag=""/>
+                                            <hc:TextBox x:Name="effp33TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1" Tag=""/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果4" Margin="0,1,0,1" Height="118" Grid.Row="3" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff4TB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp42TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1" Tag=""/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp41TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Tag=""/>
+                                            <hc:TextBox x:Name="effp43TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1" Tag=""/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果5" Margin="0,1,0,1" Height="118" Grid.Row="4" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff5TB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp52TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1" Tag=""/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp51TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Tag=""/>
+                                            <hc:TextBox x:Name="effp53TB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1" Tag=""/>
+                                        </Grid>
+                                    </GroupBox>
+                                </Grid>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,344,993,20">
+                                <GroupBox Header="属性">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="73*"/>
+                                            <ColumnDefinition Width="190*"/>
+                                            <ColumnDefinition Width="73*"/>
+                                            <ColumnDefinition Width="190*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:TextBox x:Name="hpTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="HP" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Margin="0,2,0,0"/>
+                                        <hc:TextBox x:Name="epTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="EP" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2"/>
+                                        <hc:TextBox x:Name="strTB" HorizontalAlignment="Stretch" Margin="10,1,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" Margin="0,2,0,0" VerticalAlignment="Center" Text="STR" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1"/>
+                                        <hc:TextBox x:Name="defTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="DEF" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1"/>
+                                        <hc:TextBox x:Name="atsTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="2"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="ATS" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="2" Margin="0,2,0,0"/>
+                                        <hc:TextBox x:Name="adfTB" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="2" Margin="10,0,10,0"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="ADF" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="2"/>
+                                        <hc:TextBox x:Name="aglTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="AGL" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="dexTB" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="10,0,10,0"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="DEX" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="3" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="spdTB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Row="4" Grid.Column="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="SPD" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="4" Grid.ColumnSpan="1"/>
+                                        <hc:TextBox x:Name="movTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="MOV" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="4"/>
+                                        <hc:TextBox x:Name="paTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="物攻" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="5" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="pdTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="物防" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="5" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="maTB" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="10,0,10,0"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="魔攻" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="6" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="mdTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="魔防" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="6" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="hitTB" HorizontalAlignment="Stretch" Margin="10,1,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="命中率" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="7" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="dodgeTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="闪避率" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="7" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="mdodgeTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="魔法闪避率" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="8" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="criTB" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="8" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="10,0,10,0"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="必杀率" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="8" Grid.RowSpan="1"/>
+                                    </Grid>
+                                </GroupBox>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="1002,395,239,20">
+                                <GroupBox Header="元素提供数量">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="73*"/>
+                                            <ColumnDefinition Width="190*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:TextBox x:Name="earthTB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="地属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="waterTB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="水属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="fireTB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="2"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="火属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="2" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="windTB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="风属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="3"/>
+                                        <hc:TextBox x:Name="timeTB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Row="4" Grid.Column="1"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="时属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="4"/>
+                                        <hc:TextBox x:Name="spaceTB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="1"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="空属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="5" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="mirageTB" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="1" Margin="10,0,10,0"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="幻属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="6" Grid.RowSpan="1"/>
+                                    </Grid>
+                                </GroupBox>
+                            </Border>
+                            <hc:ComboBox x:Name="effectCB" Margin="519,72,508,0" VerticalAlignment="Top" SelectionChanged="effectCB_SelectionChanged" Tag="EffectCBox"/>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,24,993,445">
+                                <GroupBox Header="基础信息">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="36*"/>
+                                            <RowDefinition Height="156*"/>
+                                            <RowDefinition Height="36*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="15*"/>
+                                            <ColumnDefinition Width="35*"/>
+                                            <ColumnDefinition Width="15*"/>
+                                            <ColumnDefinition Width="35*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="70" Text="名称" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                        <hc:TextBox x:Name="nameTB" HorizontalAlignment="Left" Margin="8,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="206" Grid.Column="1" Grid.ColumnSpan="2"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="70" Text="描述" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Margin="0,10,0,0"/>
+                                        <RichTextBox x:Name="descTB" Margin="7,10,7,10" ScrollViewer.CanContentScroll="True" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1">
+                                            <FlowDocument/>
+                                        </RichTextBox>
+                                        <hc:TextBox x:Name="uplimitTB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="2"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="携带上限" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="2"/>
+                                        <hc:TextBox x:Name="priceTB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="2"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="价格" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="2"/>
+                                    </Grid>
+                                </GroupBox>
+                            </Border>
+                            <ListBox x:Name="searchList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="1002,137,239,396" BorderBrush="Black" SelectionChanged="searchList_SelectionChanged" Tag="SearchList"/>
+                            <hc:SearchBar Margin="1002,72,239,0" TextWrapping="Wrap" VerticalAlignment="Top" SearchStarted="SearchBar_SearchStarted"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem x:Name="skillTabI" Header="Skill">
+                        <Grid x:Name="skillPanel" Background="#FFE5E5E5" Tag="ShowPanel">
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="519,135,508,20">
+                                <Grid ShowGridLines="True">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                    </Grid.RowDefinitions>
+                                    <GroupBox Header="效果1" Margin="0,1,0,1" Height="118" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff1TBS" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp12TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp11TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3"/>
+                                            <hc:TextBox x:Name="effp13TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果2" Margin="0,1,0,1" Height="118" Grid.Row="1" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff2TBS" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp22TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp21TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3"/>
+                                            <hc:TextBox x:Name="effp23TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果3" Margin="0,1,0,1" Height="118" Grid.Row="2" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff3TBS" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp32TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp31TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3"/>
+                                            <hc:TextBox x:Name="effp33TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果4" Margin="0,1,0,1" Height="118" Grid.Row="3" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff4TBS" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp42TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp41TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3"/>
+                                            <hc:TextBox x:Name="effp43TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果5" Margin="0,1,0,1" Height="118" Grid.Row="4" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff5TBS" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp52TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp51TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3"/>
+                                            <hc:TextBox x:Name="effp53TBS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1"/>
+                                        </Grid>
+                                    </GroupBox>
+                                </Grid>
+                            </Border>
+                            <hc:ComboBox x:Name="effectCBS" Margin="519,72,508,0" VerticalAlignment="Top" SelectionChanged="effectCB_SelectionChanged" Tag="EffectCBox"/>
+                            <ListBox x:Name="skillList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="1273,0,10,0" SelectionChanged="List_SelectionChanged" HorizontalAlignment="Stretch" SelectionMode="Extended" Tag="ItemsList"/>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,24,993,316">
+                                <GroupBox Header="基础信息">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="12*"/>
+                                            <RowDefinition Height="44*"/>
+                                            <RowDefinition Height="44*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="15*"/>
+                                            <ColumnDefinition Width="85*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="名称" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                        <hc:TextBox x:Name="nameTBS" HorizontalAlignment="Left" Margin="8,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="210" Grid.Column="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="描述" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Margin="0,10,0,0"/>
+                                        <RichTextBox x:Name="descTBS1" Margin="7,10,7,10" ScrollViewer.CanContentScroll="True" Grid.Column="1" Grid.Row="1">
+                                            <FlowDocument/>
+                                        </RichTextBox>
+                                        <hc:SimpleText VerticalAlignment="Top" Text="描述" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="2" Margin="0,10,0,0"/>
+                                        <RichTextBox x:Name="descTBS2" Margin="7,10,7,10" ScrollViewer.CanContentScroll="True" Grid.Column="1" Grid.Row="2">
+                                            <FlowDocument/>
+                                        </RichTextBox>
+                                    </Grid>
+                                </GroupBox>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,541,993,20">
+                                <GroupBox Header="属性">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="73*"/>
+                                            <ColumnDefinition Width="190*"/>
+                                            <ColumnDefinition Width="73*"/>
+                                            <ColumnDefinition Width="190*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="范围类型" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Margin="0,2,0,0"/>
+                                        <hc:TextBox x:Name="rangep1TB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="3"/>
+                                        <hc:SimpleText x:Name="rangep1ST" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="范围大小1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2"/>
+                                        <hc:TextBox x:Name="rangep2TB" HorizontalAlignment="Stretch" Margin="10,1,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="1" Grid.Row="1"/>
+                                        <hc:SimpleText x:Name="rangep2ST" HorizontalAlignment="Stretch" Margin="0,2,0,0" VerticalAlignment="Center" Text="范围大小2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1"/>
+                                        <hc:TextBox x:Name="rangep3TB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="3" Grid.Row="1"/>
+                                        <hc:SimpleText x:Name="rangep3ST" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="范围角度" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1"/>
+                                        <hc:TextBox x:Name="driveTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="2"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="驱动" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="2" Margin="0,2,0,0"/>
+                                        <hc:TextBox x:Name="stiffTB" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="2" Margin="10,0,10,0"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="僵直" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="2"/>
+                                        <hc:TextBox x:Name="costTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="消耗" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="learnlTB" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="10,0,10,0"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="习得等级" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="3" Grid.RowSpan="1"/>
+                                        <hc:ComboBox x:Name="rangeCB" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Center" Grid.Column="1" SelectionChanged="rangeCB_SelectionChanged"/>
+                                    </Grid>
+                                </GroupBox>
+                            </Border>
+                            <ListBox x:Name="searchSList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="1002,137,239,396" BorderBrush="Black" SelectionChanged="searchList_SelectionChanged" Tag="SearchList"/>
+                            <hc:SearchBar Margin="1002,72,239,0" TextWrapping="Wrap" VerticalAlignment="Top" SearchStarted="SearchBar_SearchStarted"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem x:Name="shardSTabI" Header="ShardSkill">
+                        <Grid x:Name="shardSPanel" Background="#FFE5E5E5" Tag="ShowPanel">
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="1002,395,239,20">
+                                <GroupBox Header="元素消耗数量">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                            <RowDefinition Height="72*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="73*"/>
+                                            <ColumnDefinition Width="190*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:TextBox x:Name="earthTBSS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="地属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="waterTBSS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="水属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="fireTBSS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="2"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="火属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="2" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="windTBSS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="风属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="3"/>
+                                        <hc:TextBox x:Name="timeTBSS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Row="4" Grid.Column="1"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="时属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="4"/>
+                                        <hc:TextBox x:Name="spaceTBSS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="1"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="空属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="5" Grid.RowSpan="1"/>
+                                        <hc:TextBox x:Name="mirageTBSS" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="1" Margin="10,0,10,0"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="幻属性" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="6" Grid.RowSpan="1"/>
+                                    </Grid>
+                                </GroupBox>
+                            </Border>
+                            <ListBox x:Name="shardSList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="1273,0,10,0" SelectionChanged="List_SelectionChanged" SelectionMode="Extended" Tag="ItemsList"/>
+                            <ListBox x:Name="searchSSList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="1002,137,239,396" BorderBrush="Black" SelectionChanged="searchList_SelectionChanged" Tag="SearchList"/>
+                            <hc:SearchBar Margin="1002,72,239,0" TextWrapping="Wrap" VerticalAlignment="Top" SearchStarted="SearchBar_SearchStarted"/>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,24,993,316">
+                                <GroupBox Header="基础信息">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="12*"/>
+                                            <RowDefinition Height="44*"/>
+                                            <RowDefinition Height="44*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="15*"/>
+                                            <ColumnDefinition Width="85*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="名称" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                        <hc:TextBox x:Name="nameTBSS" HorizontalAlignment="Left" Margin="8,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="210" Grid.Column="1"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="描述" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Margin="0,10,0,0"/>
+                                        <RichTextBox x:Name="descTBSS1" Margin="7,10,7,10" ScrollViewer.CanContentScroll="True" Grid.Column="1" Grid.Row="1">
+                                            <FlowDocument/>
+                                        </RichTextBox>
+                                        <hc:SimpleText VerticalAlignment="Top" Text="描述" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="2" Margin="0,10,0,0"/>
+                                        <RichTextBox x:Name="descTBSS2" Margin="7,10,7,10" ScrollViewer.CanContentScroll="True" Grid.Column="1" Grid.Row="2">
+                                            <FlowDocument/>
+                                        </RichTextBox>
+                                    </Grid>
+                                </GroupBox>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,541,993,55">
+                                <GroupBox Header="属性">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="33*"/>
+                                            <RowDefinition Height="33*"/>
+                                            <RowDefinition Height="33*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20*"/>
+                                            <ColumnDefinition Width="30*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                            <ColumnDefinition Width="30*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="基础触发概率" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Margin="0,2,0,0"/>
+                                        <hc:TextBox x:Name="sBCTB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="3"/>
+                                        <hc:SimpleText x:Name="rangep1ST1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="SB触发概率" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2"/>
+                                        <hc:TextBox x:Name="fullBCTB" HorizontalAlignment="Stretch" Margin="10,1,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="1" Grid.Row="1"/>
+                                        <hc:SimpleText x:Name="rangep2ST1" HorizontalAlignment="Stretch" Margin="0,2,0,0" VerticalAlignment="Center" Text="FullB触发概率" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1"/>
+                                        <hc:TextBox x:Name="cond1TB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="3" Grid.Row="1"/>
+                                        <hc:SimpleText x:Name="rangep3ST1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="触发条件1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1"/>
+                                        <hc:TextBox x:Name="cond2TB" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="2"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="触发条件2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="2" Margin="0,2,0,0"/>
+                                        <hc:TextBox x:Name="substiTB" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="2" Margin="10,0,10,0"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="替换技能" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="2"/>
+                                        <hc:TextBox x:Name="baseCTB" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="1"/>
+                                    </Grid>
+                                </GroupBox>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="519,137,508,371">
+                                <Grid ShowGridLines="True">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                    </Grid.RowDefinitions>
+                                    <GroupBox Header="效果1" Margin="0,1,0,1" Height="118" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff1TBSS" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp12TBSS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp11TBSS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3"/>
+                                            <hc:TextBox x:Name="effp13TBSS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果2" Margin="0,1,0,1" Height="118" Grid.Row="1" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff2TBSS" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp22TBSS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp21TBSS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3"/>
+                                            <hc:TextBox x:Name="effp23TBSS" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1"/>
+                                        </Grid>
+                                    </GroupBox>
+                                </Grid>
+                            </Border>
+                            <hc:ComboBox x:Name="effectCBSS" Margin="519,72,508,0" VerticalAlignment="Top" SelectionChanged="effectCB_SelectionChanged" Tag="EffectCBox"/>
+                            <TextBlock HorizontalAlignment="Left" Margin="519,541,0,0" TextWrapping="Wrap" Text="关于：触发条件1、触发条件2、替换技能、效果相关暂未解析，请谨慎更改！！！" VerticalAlignment="Top" Height="131" Width="460" FontSize="16"/>
+
+                        </Grid>
+                    </TabItem>
+                    <TabItem x:Name="hollowCTabI" Header="HollowCore">
+                        <Grid x:Name="hollowCPanel" Background="#FFE5E5E5" Tag="ShowPanel">
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,24,993,445">
+                                <GroupBox Header="基础信息">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="16*"/>
+                                            <RowDefinition Height="16*"/>
+                                            <RowDefinition Height="68*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="15*"/>
+                                            <ColumnDefinition Width="85*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="70" Text="名称" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                        <hc:TextBox x:Name="nameTBHC" HorizontalAlignment="Left" Margin="7,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="206" Grid.Column="1" IsReadOnly="True"/>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="70" Text="能力名称" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Margin="0,10,0,0"/>
+                                        <RichTextBox x:Name="descTBHC" Margin="7,7,7,7" ScrollViewer.CanContentScroll="True" Grid.Column="1" Grid.Row="2">
+                                            <FlowDocument/>
+                                        </RichTextBox>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="携带上限" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="2"/>
+                                        <hc:TextBox x:Name="name2TBHC" HorizontalAlignment="Left" Margin="7,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="206" Grid.Column="1" Grid.Row="1"/>
+                                    </Grid>
+                                </GroupBox>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,331,993,295" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <GroupBox Header="属性">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50*"/>
+                                            <RowDefinition Height="50*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20*"/>
+                                            <ColumnDefinition Width="30*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                            <ColumnDefinition Width="30*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="到本级所需经验" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Margin="0,2,0,0"/>
+                                        <hc:TextBox x:Name="maTBHC" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="3"/>
+                                        <hc:SimpleText x:Name="rangep1ST2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="魔法攻击" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2"/>
+                                        <hc:TextBox x:Name="epTBHC" HorizontalAlignment="Stretch" Margin="10,1,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="1" Grid.Row="1"/>
+                                        <hc:SimpleText x:Name="rangep2ST2" HorizontalAlignment="Stretch" Margin="0,2,0,0" VerticalAlignment="Center" Text="EP" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1"/>
+                                        <hc:TextBox x:Name="expTBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="1"/>
+                                    </Grid>
+                                </GroupBox>
+                            </Border>
+                            <ListBox x:Name="hollowCList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="1273,0,10,0" SelectionChanged="List_SelectionChanged" SelectionMode="Extended" Tag="ItemsList"/>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="519,135,508,20">
+                                <Grid ShowGridLines="True">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                    </Grid.RowDefinitions>
+                                    <GroupBox Header="效果1" Margin="0,1,0,1" Height="118" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff1TBHC" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp12TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1" Tag=""/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp11TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Tag=""/>
+                                            <hc:TextBox x:Name="effp13TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1" Tag=""/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果2" Margin="0,1,0,1" Height="118" Grid.Row="1" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff2TBHC" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp22TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1" Tag=""/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp21TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Tag=""/>
+                                            <hc:TextBox x:Name="effp23TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1" Tag=""/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果3" Margin="0,1,0,1" Height="118" Grid.Row="2" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff3TBHC" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp32TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1" Tag=""/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp31TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Tag=""/>
+                                            <hc:TextBox x:Name="effp33TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1" Tag=""/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果4" Margin="0,1,0,1" Height="118" Grid.Row="3" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff4TBHC" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp42TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1" Tag=""/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp41TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Tag=""/>
+                                            <hc:TextBox x:Name="effp43TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1" Tag=""/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果5" Margin="0,1,0,1" Height="118" Grid.Row="4" MouseDown="effGB_MouseDown">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff5TBHC" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp52TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1" Tag=""/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp51TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Tag=""/>
+                                            <hc:TextBox x:Name="effp53TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1" Tag=""/>
+                                        </Grid>
+                                    </GroupBox>
+                                </Grid>
+                            </Border>
+                            <hc:ComboBox x:Name="effectCBHC" Margin="519,72,508,0" VerticalAlignment="Top" SelectionChanged="effectCB_SelectionChanged" Tag="EffectCBox"/>
+                            <ListBox x:Name="searchHCList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="1002,137,239,396" BorderBrush="Black" SelectionChanged="searchList_SelectionChanged" Tag="SearchList"/>
+                            <hc:SearchBar Margin="1002,72,239,0" TextWrapping="Wrap" VerticalAlignment="Top" SearchStarted="SearchBar_SearchStarted"/>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,491,993,20">
+                                <Grid ShowGridLines="True">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="120*"/>
+                                        <RowDefinition Height="120*"/>
+                                    </Grid.RowDefinitions>
+                                    <GroupBox Header="效果6" Margin="0,1,0,1" MouseDown="effGB_MouseDown" Height="118">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff6TBHC" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp62TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp61TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3"/>
+                                            <hc:TextBox x:Name="effp63TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox Header="效果7" Margin="0,1,0,1" Grid.Row="1" MouseDown="effGB_MouseDown" Height="118">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                                <ColumnDefinition Width="73*"/>
+                                                <ColumnDefinition Width="190*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="63*"/>
+                                                <RowDefinition Height="63*"/>
+                                            </Grid.RowDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="效果ID" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数2" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1" Tag="param2"/>
+                                            <hc:TextBox x:Name="eff7TBHC" HorizontalAlignment="Stretch" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Tag="effid"/>
+                                            <hc:TextBox x:Name="effp72TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="1" Grid.Row="1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数1" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Tag="param1"/>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="参数3" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1" Tag="param3"/>
+                                            <hc:TextBox x:Name="effp71TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3"/>
+                                            <hc:TextBox x:Name="effp73TBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number" TextType="Number" Grid.Column="3" Grid.Row="1"/>
+                                        </Grid>
+                                    </GroupBox>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+                    <TabItem x:Name="ArtsDTabI" Header="ArtsDriver">
+                        <Grid x:Name="artsDPanel" Background="#FFE5E5E5" Tag="ShowPanel">
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,24,993,0" Height="90" VerticalAlignment="Top">
+                                <GroupBox Header="基础信息">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="15*"/>
+                                            <ColumnDefinition Width="85*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="名称"/>
+                                        <hc:TextBox x:Name="nameTBAD" Grid.Column="1" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="206" HorizontalAlignment="Left" IsReadOnly="True"/>
+                                    </Grid>
+                                </GroupBox>
+
+                            </Border>
+                            <ListBox x:Name="artsDList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="1273,0,10,0" SelectionChanged="List_SelectionChanged" SelectionMode="Extended" Tag="ItemsList"/>
+                            <ListBox x:Name="searchADList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="1002,137,239,396" BorderBrush="Black" SelectionChanged="searchList_SelectionChanged" Tag="SearchList" Grid.ColumnSpan="2"/>
+                            <hc:SearchBar Margin="1002,72,239,0" TextWrapping="Wrap" VerticalAlignment="Top" SearchStarted="SearchBar_SearchStarted" Grid.ColumnSpan="2"/>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,162,993,0" Height="131" VerticalAlignment="Top">
+                                <GroupBox Header="属性">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="41*"/>
+                                            <RowDefinition Height="41*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="16*"/>
+                                            <ColumnDefinition Width="34*"/>
+                                            <ColumnDefinition Width="16*"/>
+                                            <ColumnDefinition Width="34*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Text="总槽数"/>
+                                        <hc:SimpleText VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Text="固定槽数" Grid.Column="2"/>
+                                        <hc:SimpleText VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Text="自定义槽数" Grid.Row="1"/>
+                                        <hc:ComboBox x:Name="sumCBAD" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,10,0" SelectionChanged="sumCBAD_SelectionChanged"/>
+                                        <hc:ComboBox x:Name="fixCBAD" Grid.Column="3" VerticalAlignment="Center" Margin="10,0,10,0" SelectionChanged="fixCBAD_SelectionChanged"/>
+                                        <hc:ComboBox x:Name="cusCBAD" Grid.Column="1" VerticalAlignment="Center" Margin="10,0,10,0" Grid.Row="1" SelectionChanged="cusCBAD_SelectionChanged"/>
+                                    </Grid>
+                                </GroupBox>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="518,72,509,33">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="83*"/>
+                                        <RowDefinition Height="83*"/>
+                                        <RowDefinition Height="83*"/>
+                                        <RowDefinition Height="83*"/>
+                                        <RowDefinition Height="83*"/>
+                                        <RowDefinition Height="83*"/>
+                                        <RowDefinition Height="83*"/>
+                                        <RowDefinition Height="83*"/>
+                                    </Grid.RowDefinitions>
+                                    <GroupBox x:Name="soltGBAD1" Header="槽位1：??">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="技能"/>
+                                            <hc:SimpleText VerticalAlignment="Center" Text="锁定级别" Grid.Column="2"/>
+                                            <hc:ComboBox x:Name="skillCBAD1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                            <hc:ComboBox x:Name="lockCBAD1" Grid.Column="3" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox x:Name="soltGBAD2" Header="槽位2：??" Grid.Row="1">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="技能"/>
+                                            <hc:SimpleText VerticalAlignment="Center" Text="锁定级别" Grid.Column="2"/>
+                                            <hc:ComboBox x:Name="skillCBAD2" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                            <hc:ComboBox x:Name="lockCBAD2" Grid.Column="3" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox x:Name="soltGBAD3" Header="槽位3：??" Grid.Row="2">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="技能"/>
+                                            <hc:SimpleText VerticalAlignment="Center" Text="锁定级别" Grid.Column="2"/>
+                                            <hc:ComboBox x:Name="skillCBAD3" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                            <hc:ComboBox x:Name="lockCBAD3" Grid.Column="3" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox x:Name="soltGBAD4" Header="槽位4：??" Grid.Row="3">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="技能"/>
+                                            <hc:SimpleText VerticalAlignment="Center" Text="锁定级别" Grid.Column="2"/>
+                                            <hc:ComboBox x:Name="skillCBAD4" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                            <hc:ComboBox x:Name="lockCBAD4" Grid.Column="3" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox x:Name="soltGBAD5" Header="槽位5：??" Grid.Row="4">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="技能"/>
+                                            <hc:SimpleText VerticalAlignment="Center" Text="锁定级别" Grid.Column="2"/>
+                                            <hc:ComboBox x:Name="skillCBAD5" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                            <hc:ComboBox x:Name="lockCBAD5" Grid.Column="3" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox x:Name="soltGBAD6" Header="槽位6：??" Grid.Row="5">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="技能"/>
+                                            <hc:SimpleText VerticalAlignment="Center" Text="锁定级别" Grid.Column="2"/>
+                                            <hc:ComboBox x:Name="skillCBAD6" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                            <hc:ComboBox x:Name="lockCBAD6" Grid.Column="3" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox x:Name="soltGBAD7" Header="槽位7：??" Grid.Row="6" Margin="0,0,0,83" Grid.RowSpan="2">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="技能"/>
+                                            <hc:SimpleText VerticalAlignment="Center" Text="锁定级别" Grid.Column="2"/>
+                                            <hc:ComboBox x:Name="skillCBAD7" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                            <hc:ComboBox x:Name="lockCBAD7" Grid.Column="3" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </GroupBox>
+                                    <GroupBox x:Name="soltGBAD8" Header="槽位8：??" Grid.Row="7">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                                <ColumnDefinition Width="16*"/>
+                                                <ColumnDefinition Width="34*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <hc:SimpleText HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="技能"/>
+                                            <hc:SimpleText VerticalAlignment="Center" Text="锁定级别" Grid.Column="2"/>
+                                            <hc:ComboBox x:Name="skillCBAD8" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                            <hc:ComboBox x:Name="lockCBAD8" Grid.Column="3" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </GroupBox>
+                                </Grid>
+                            </Border>
+
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </hc:TabItem>
+        </hc:TabControl>
+    </Grid>
+</Window>
