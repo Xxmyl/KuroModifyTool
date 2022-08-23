@@ -20,9 +20,12 @@ namespace KuroModifyTool
             {
                 gamePath = value;
                 TBLPath = value + "\\tc\\f\\table\\";
+                OpusPath = value + "\\voice\\opus\\";
             }
         }
         public static string TBLPath;
+
+        public static string OpusPath;
 
         public static List<OtherDesc> EffectList;
         public static List<OtherDesc> RangeList;

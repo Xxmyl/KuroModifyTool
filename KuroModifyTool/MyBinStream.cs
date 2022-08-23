@@ -199,8 +199,6 @@ namespace KuroModifyTool
 
         public void GetTextData(byte[] buffer, TextData td)
         {
-            td.Offsets = new List<ulong>();
-            td.Texts = new List<string>();
             int sinx = td.StartIndex;
             int einx = td.EndIndex;
 
@@ -211,9 +209,49 @@ namespace KuroModifyTool
             }
         }
 
+        public void GetUintData(byte[] buffer, UintData td)
+        {
+            int sinx = td.StartIndex;
+            int einx = td.EndIndex;
+
+            for (; sinx < einx;)
+            {
+                td.Offsets.Add((ulong)sinx);
+                td.Nums.Add(DeSerialization(typeof(uint), buffer, ref sinx));
+            }
+        }
+
+        public void GetUshortData(byte[] buffer, UshortData td)
+        {
+            int sinx = td.StartIndex;
+            int einx = td.EndIndex;
+
+            for (; sinx < einx;)
+            {
+                td.Offsets.Add((ulong)sinx);
+                td.Nums.Add(DeSerialization(typeof(ushort), buffer, ref sinx));
+            }
+        }
+
         public void SetTextData(List<byte> modify, TextData td)
         {
             foreach (string value in td.Texts)
+            {
+                Serialization(value, modify);
+            }
+        }
+
+        public void SetTextData(List<byte> modify, UintData td)
+        {
+            foreach (uint value in td.Nums)
+            {
+                Serialization(value, modify);
+            }
+        }
+
+        public void SetTextData(List<byte> modify, UshortData td)
+        {
+            foreach (ushort value in td.Nums)
             {
                 Serialization(value, modify);
             }

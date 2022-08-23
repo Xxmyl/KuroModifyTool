@@ -19,6 +19,7 @@ namespace KuroModifyTool
         public ShardSkillTable shardSTable;
         public HollowCoreTable hollowCTable;
         public ArtsDriverTable artsDTable;
+        public VoiceTable voiceTable;
 
 
         private Paragraph itemParag;
@@ -50,6 +51,7 @@ namespace KuroModifyTool
         private List<FrameworkElement> shardSCtls;
         private List<FrameworkElement> hollowCCtls;
         private List<FrameworkElement> ArtsDCtls;
+        private List<FrameworkElement> voiceCtls;
 
         private MainWindow MW;
 
@@ -110,6 +112,11 @@ namespace KuroModifyTool
             ArtsDCtls.Add(MW.artsDPanel);
             ArtsDCtls.Add(MW.artsDList);
             ArtsDCtls.Add(MW.searchADList);
+
+            voiceCtls = new List<FrameworkElement>();
+            voiceCtls.Add(MW.voicePanel);
+            voiceCtls.Add(MW.voiceList);
+            voiceCtls.Add(MW.searchVList);
 
             Thread thread = new Thread(ListInit);
             thread.Start();
@@ -185,7 +192,9 @@ namespace KuroModifyTool
 
             artsDTable = new ArtsDriverTable();
 
-            ShopTable shop = new ShopTable(itemTable);
+            voiceTable = new VoiceTable();
+
+            //ShopTable shop = new ShopTable(itemTable);
 
             MW.Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -273,6 +282,22 @@ namespace KuroModifyTool
                 else
                 {
                     MW.hollowCTabI.IsEnabled = false;
+                }
+
+                MW.voiceList.Items.Clear();
+
+                if (voiceTable.IsDecrypt)
+                {
+                    foreach (VoiceTable.VoiceTableData v in voiceTable.Voices)
+                    {
+                        int ninx = voiceTable.VoiceText.Offsets.FindIndex(o => o == v.FileNameOff);
+
+                        MW.voiceList.Items.Add(voiceTable.VoiceText.Texts[ninx]);
+                    }
+                }
+                else
+                {
+                    MW.voiceTabI.IsEnabled = false;
                 }
             }));
         }
@@ -536,6 +561,27 @@ namespace KuroModifyTool
             ilb.SelectedItem = lb.SelectedItem;
         }
 
+        public void JumpVoice()
+        {
+            if (MW.hollowCList.SelectedIndex == -1 || MW.hollowCList.SelectedItems.Count > 1)
+            {
+                return;
+            }
+
+            ListBox lb = GetCtl<ListBox>("ItemsList");
+
+            hollowCTable.VoiceAdd(MW, this, lb.SelectedIndex);
+
+            foreach (TabItem ti in MW.tblTabC.Items)
+            {
+                if(ti.Header as string == "Voice")
+                {
+                    MW.tblTabC.SelectedItem = ti;
+                    break;
+                }
+            }
+        }
+
         private T GetCtl<T>(string tag) where T : FrameworkElement
         {
             switch (CurrentTabC)
@@ -550,6 +596,8 @@ namespace KuroModifyTool
                     return hollowCCtls.Find(c => c.Tag.Equals(tag)) as T;
                 case "ArtsDriver":
                     return ArtsDCtls.Find(c => c.Tag.Equals(tag)) as T;
+                case "Voice":
+                    return voiceCtls.Find(c => c.Tag.Equals(tag)) as T;
                 default :
                     return null;
             }
@@ -569,6 +617,8 @@ namespace KuroModifyTool
                     return hollowCTable;
                 case "ArtsDriver":
                     return artsDTable;
+                case "Voice":
+                    return voiceTable;
                 default:
                     return null;
             }

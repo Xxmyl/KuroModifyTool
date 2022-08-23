@@ -200,6 +200,7 @@ namespace KuroModifyTool.KuroTable
         {
             StartIndex = sinx;
             EndIndex = einx;
+            Offsets = new List<ulong>();
         }
 
         public static int GetTextStartOff(SubHeader[] nodes, string name)
@@ -217,6 +218,31 @@ namespace KuroModifyTool.KuroTable
         {
             StartIndex = sinx;
             EndIndex = einx;
+            Texts = new List<string>();
+        }
+    }
+
+    public class UintData : BottomData
+    {
+        public List<uint> Nums;
+
+        public UintData(int sinx, int einx) : base(sinx, einx)
+        {
+            StartIndex = sinx;
+            EndIndex = einx;
+            Nums = new List<uint>();
+        }
+    }
+
+    public class UshortData : BottomData
+    {
+        public List<ushort> Nums;
+
+        public UshortData(int sinx, int einx) : base(sinx, einx)
+        {
+            StartIndex = sinx;
+            EndIndex = einx;
+            Nums = new List<ushort>();
         }
     }
 

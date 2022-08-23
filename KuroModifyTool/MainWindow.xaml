@@ -659,6 +659,8 @@
                                         <hc:TextBox x:Name="epTBHC" HorizontalAlignment="Stretch" Margin="10,1,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="1" Grid.Row="1"/>
                                         <hc:SimpleText x:Name="rangep2ST2" HorizontalAlignment="Stretch" Margin="0,2,0,0" VerticalAlignment="Center" Text="EP" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Row="1"/>
                                         <hc:TextBox x:Name="expTBHC" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Default" Grid.Column="1"/>
+                                        <hc:SimpleText x:Name="rangep1ST2_Copy" VerticalAlignment="Center" Text="语音" TextAlignment="Left" TextTrimming="None" FontStretch="Normal" FontWeight="Normal" Grid.Column="2" Grid.Row="1"/>
+                                        <Button Grid.Column="3" Content="跳转" HorizontalAlignment="Stretch" Margin="10,0,10,0" Grid.Row="1" VerticalAlignment="Center" Click="Button_Click_2"/>
                                     </Grid>
                                 </GroupBox>
                             </Border>
@@ -1006,6 +1008,55 @@
                                         </Grid>
                                     </GroupBox>
                                 </Grid>
+                            </Border>
+
+                        </Grid>
+                    </TabItem>
+                    <TabItem x:Name="voiceTabI" Header="Voice">
+                        <Grid x:Name="voicePanel" Background="#FFE5E5E5" Tag="ShowPanel">
+                            <ListBox x:Name="voiceList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="1273,0,10,0" SelectionChanged="List_SelectionChanged" SelectionMode="Extended" Tag="ItemsList"/>
+                            <ListBox x:Name="searchVList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="1002,137,239,396" BorderBrush="Black" SelectionChanged="searchList_SelectionChanged" Tag="SearchList"/>
+                            <hc:SearchBar Margin="1002,72,239,0" TextWrapping="Wrap" VerticalAlignment="Top" SearchStarted="SearchBar_SearchStarted"/>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,24,993,0" Height="140" VerticalAlignment="Top">
+                                <GroupBox Header="基础信息">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50*"/>
+                                            <RowDefinition Height="50*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="15*"/>
+                                            <ColumnDefinition Width="85*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="名称"/>
+                                        <hc:TextBox x:Name="nameTBV" Grid.Column="1" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="206" HorizontalAlignment="Left" IsReadOnly="True"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="描述" Grid.Row="1"/>
+                                        <hc:TextBox x:Name="textTBV" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="361" HorizontalAlignment="Center" Grid.Row="1"/>
+                                    </Grid>
+                                </GroupBox>
+
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="34,200,993,0" Height="526" VerticalAlignment="Top">
+                                <GroupBox Header="跳到这">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="10*"/>
+                                            <RowDefinition Height="80*"/>
+                                            <RowDefinition Height="10*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="15*"/>
+                                            <ColumnDefinition Width="85*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="谁的语音"/>
+                                        <hc:TextBox x:Name="whoTBV" Grid.Column="1" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="206" HorizontalAlignment="Left" IsReadOnly="True"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="列表" Grid.Row="1"/>
+                                        <ListBox x:Name="jumpVList" Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,10,10" MouseDoubleClick="jumpVList_MouseDoubleClick" SelectionChanged="jumpVList_SelectionChanged" SelectionMode="Extended"/>
+                                        <hc:SimpleText VerticalAlignment="Center" Text="导出" Grid.Row="2"/>
+                                        <Button Grid.Column="1" Content="导出文件" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" Width="206" Click="Button_Click_1"/>
+                                    </Grid>
+                                </GroupBox>
+
                             </Border>
 
                         </Grid>

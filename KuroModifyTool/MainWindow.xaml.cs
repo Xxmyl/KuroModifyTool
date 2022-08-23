@@ -103,5 +103,34 @@ namespace KuroModifyTool
         {
             adUIFunc.SoltSumChange((HandyControl.Controls.ComboBox)sender);
         }
+
+        private void jumpVList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ListBox lb = (ListBox)sender;
+
+            if(e.LeftButton == MouseButtonState.Pressed)
+            {
+                if(lb.SelectedIndex == -1)
+                {
+                    return;
+                }
+                FileTools.PlayOpus(lb.SelectedItem as string);
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            FileTools.OutPutOpus(whoTBV.Text, jumpVList.SelectedItems);
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            mainFunc.JumpVoice();
+        }
+
+        private void jumpVList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            mainFunc.SearchSetItem((ListBox)sender);
+        }
     }
 }

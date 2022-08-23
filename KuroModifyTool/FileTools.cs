@@ -2,6 +2,7 @@
 using Microsoft.International.Converters.TraditionalChineseToSimplifiedConverter;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace KuroModifyTool
@@ -181,6 +182,31 @@ namespace KuroModifyTool
             {
                 File.Copy(StaticField.TBLPath + name, ".\\bak\\" + name);
             }
+        }
+
+        public static void PlayOpus(string name)
+        {
+            Process.Start(StaticField.OpusPath + name + ".opus");
+        }
+
+        public static void OutPutOpus(string pn, System.Collections.IList list)
+        {
+            pn = ".\\Opus\\" + pn + "\\";
+            if (!Directory.Exists(pn))
+            {
+                Directory.CreateDirectory(pn);
+            }
+
+            foreach(object o in list)
+            {
+                string n = o as string;
+                if (!File.Exists(pn + n + ".opus"))
+                {
+                    File.Copy(StaticField.OpusPath + n + ".opus", pn + n + ".opus");
+                }
+            }
+
+            Process.Start(pn);
         }
     }
 }

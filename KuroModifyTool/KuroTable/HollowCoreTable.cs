@@ -40,7 +40,7 @@ namespace KuroModifyTool.KuroTable
             public ulong TitleOff;
 
             [FieldIndexAttr(Index = 9)]
-            public uint Unknown7;
+            public uint VoiceID;
 
             [FieldIndexAttr(Index = 10)]
             public float Unknown8;
@@ -167,15 +167,15 @@ namespace KuroModifyTool.KuroTable
             public uint Empty1;
 
             [FieldIndexAttr(Index = 3)]
-            public ulong VoiceIDOff;
+            public ulong VIDArrOff;
 
             [FieldIndexAttr(Index = 4)]
-            public ulong Unknown1;
+            public ulong VIDArrLen;
         }
 
         public TextData HCText;
 
-        private byte[] ExtraData;
+        private UintData HCVoiceID;
 
         private readonly string filename = "t_hollowcore.tbl";
 
@@ -204,11 +204,13 @@ namespace KuroModifyTool.KuroTable
             Voices = StaticField.MyBS.GetNode(Nodes, typeof(HollowCoreVoice[]), buffer, ref i);
 
 
-            HCText = new TextData(TextData.GetTextStartOff(Nodes, "HollowCoreVoice"), (int)Voices.First().VoiceIDOff);
+            HCText = new TextData(TextData.GetTextStartOff(Nodes, "HollowCoreVoice"), (int)Voices.First().VIDArrOff);
             StaticField.MyBS.GetTextData(buffer, HCText);
 
-            ExtraData = new byte[buffer.Length - (int)Voices.First().VoiceIDOff];
-            Array.Copy(buffer, (int)Voices.First().VoiceIDOff, ExtraData, 0, ExtraData.Length);
+            HCVoiceID = new UintData((int)Voices.First().VIDArrOff, buffer.Length);
+            StaticField.MyBS.GetUintData(buffer, HCVoiceID);
+            /*ExtraData = new byte[buffer.Length - (int)Voices.First().VIDArrOff];
+            Array.Copy(buffer, (int)Voices.First().VIDArrOff, ExtraData, 0, ExtraData.Length);*/
             //DebugLog();
         }
 
@@ -283,7 +285,8 @@ namespace KuroModifyTool.KuroTable
 
             StaticField.MyBS.SetTextData(modify, HCText);
 
-            modify.AddRange(ExtraData);
+            StaticField.MyBS.SetTextData(modify, HCVoiceID);
+            //modify.AddRange(ExtraData);
 
             FileTools.BufferToFile(StaticField.TBLPath + filename, modify.ToArray());
         }
@@ -450,7 +453,7 @@ namespace KuroModifyTool.KuroTable
 
             for (int i = 0; i < Voices.Length; i++)
             {
-                Voices[i].VoiceIDOff += diff;
+                Voices[i].VIDArrOff += diff;
             }
 
             for (; nj < dj; nj++)
@@ -461,6 +464,45 @@ namespace KuroModifyTool.KuroTable
             for (; dj < HCText.Offsets.Count; dj++)
             {
                 HCText.Offsets[dj] += diff;
+            }
+        }
+
+        public void VoiceAdd(MainWindow mw, MainFunc mf, int i)
+        {
+            mw.jumpVList.Items.Clear();
+            HollowCoreLevelParam hc = LevelParams[i];
+
+            ulong noff = Array.Find(mf.itemTable.Items, item => item.ID == hc.ItemID).NameOff;
+            int ninx = mf.itemTable.ItemText.Offsets.FindIndex(o => o == noff);
+            mw.whoTBV.Text = mf.itemTable.ItemText.Texts[ninx];
+
+            HollowCoreBaseParam hcbase = Array.Find(BaseParams, hcb => hcb.ItemID == hc.ItemID);
+
+            foreach (HollowCoreVoice v in Voices)
+            {
+                if(v.ID != hcbase.VoiceID)
+                {
+                    continue;
+                }
+
+                int inx = HCVoiceID.Offsets.FindIndex(off => off == v.VIDArrOff);
+
+                if(inx == -1)
+                {
+                    continue;
+                }
+
+                for(ulong j = 0; j < v.VIDArrLen; j++)
+                {
+                    int vinx = Array.FindIndex(mf.voiceTable.Voices, v1 => v1.ID == HCVoiceID.Nums[inx + (int)j]);
+                    
+                    if(vinx == -1)
+                    {
+                        continue;
+                    }
+
+                    mw.jumpVList.Items.Add(mw.voiceList.Items[vinx]);
+                }
             }
         }
     }

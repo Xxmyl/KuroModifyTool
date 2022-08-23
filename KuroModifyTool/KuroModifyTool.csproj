@@ -50,8 +50,8 @@
     <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
-    <Reference Include="Pfim, Version=0.10.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Pfim.0.10.3\lib\netstandard2.0\Pfim.dll</HintPath>
+    <Reference Include="Pfim, Version=0.11.1.0, Culture=neutral, PublicKeyToken=c0ebc20d008ae134, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pfim.0.11.1\lib\netstandard2.0\Pfim.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -80,6 +80,7 @@
     <Compile Include="KuroTable\ShopTable.cs" />
     <Compile Include="KuroTable\SkillTable.cs" />
     <Compile Include="KuroTable\TBLCommon.cs" />
+    <Compile Include="KuroTable\VoiceTable.cs" />
     <Compile Include="MainFunc.cs" />
     <Compile Include="StaticField.cs" />
     <Page Include="MainWindow.xaml">
