@@ -119,7 +119,7 @@ namespace KuroModifyTool.KuroTable
             public ulong DescriptionOff2;
         }
 
-        public TextData ShardSText;
+        public BottomData Extra;
 
         private readonly string filename = "t_shard_skill.tbl";
 
@@ -140,14 +140,13 @@ namespace KuroModifyTool.KuroTable
 
             //ShardSkillParam
             ShardSkills = StaticField.MyBS.GetNode(Nodes, typeof(ShardSkillParam[]), buffer, ref i);
-
-            ShardSText = new TextData(TextData.GetTextStartOff(Nodes, "ShardSkillParam"), buffer.Length);
-            StaticField.MyBS.GetTextData(buffer, ShardSText);
+            
+            Extra = new BottomData(Nodes, "ShardSkillParam", buffer);
         }
 
         public void DebugLog()
         {
-            FileTools.LogPath = ".\\log.txt";
+            /*FileTools.LogPath = ".\\log.txt";
 
             for (int i = 0; i < ShardSkills.Length; i++)
             {
@@ -187,7 +186,7 @@ namespace KuroModifyTool.KuroTable
                 FileTools.WriteLog("\n");
             }
 
-            FileTools.CloseLog();
+            FileTools.CloseLog();*/
         }
 
         public override void Save()
@@ -202,7 +201,7 @@ namespace KuroModifyTool.KuroTable
 
             StaticField.MyBS.Serialization(ShardSkills, modify);
 
-            StaticField.MyBS.SetTextData(modify, ShardSText);
+            modify.AddRange(Extra.ExtraData);
 
             FileTools.BufferToFile(StaticField.TBLPath + filename, modify.ToArray());
         }
@@ -211,12 +210,9 @@ namespace KuroModifyTool.KuroTable
         {
             ShardSkillParam skill = ShardSkills[i];
 
-            int ninx = ShardSText.Offsets.FindIndex(o => o == skill.NameOff);
-            int d1inx = ShardSText.Offsets.FindIndex(o => o == skill.DescriptionOff1);
-            int d2inx = ShardSText.Offsets.FindIndex(o => o == skill.DescriptionOff2);
-            mw.nameTBSS.Text = ShardSText.Texts[ninx];
-            mf.ShardS1RichText = ShardSText.Texts[d1inx];
-            mf.ShardS2RichText = ShardSText.Texts[d2inx];
+            mw.nameTBSS.Text = Extra.GetExtraData((int)skill.NameOff, typeof(string));
+            mf.ShardS1RichText = Extra.GetExtraData((int)skill.DescriptionOff1, typeof(string));
+            mf.ShardS2RichText = Extra.GetExtraData((int)skill.DescriptionOff2, typeof(string));
 
 
             mw.baseCTB.Text = skill.BaseChance.ToString();
@@ -255,24 +251,23 @@ namespace KuroModifyTool.KuroTable
             string desc1 = mf.ShardS1RichText;
             string desc2 = mf.ShardS2RichText;
 
-            int ninx = ShardSText.Offsets.FindIndex(o => o == skill.NameOff);
-            int d1inx = ShardSText.Offsets.FindIndex(o => o == skill.DescriptionOff1);
-            int d2inx = ShardSText.Offsets.FindIndex(o => o == skill.DescriptionOff2);
+            string namel = Extra.GetExtraData((int)skill.NameOff, typeof(string));
+            string desc1l = Extra.GetExtraData((int)skill.DescriptionOff1, typeof(string));
+            string desc2l = Extra.GetExtraData((int)skill.DescriptionOff2, typeof(string));
 
-            ulong diff1 = StaticField.MyBS.GetStringDiff(ShardSText.Texts[ninx], name);
-            ulong diff2 = StaticField.MyBS.GetStringDiff(ShardSText.Texts[d1inx], desc1);
-            ulong diff3 = StaticField.MyBS.GetStringDiff(ShardSText.Texts[d2inx], desc2);
+            ulong diff1 = StaticField.MyBS.GetStringDiff(namel, name);
+            ulong diff2 = StaticField.MyBS.GetStringDiff(desc1l, desc1);
+            ulong diff3 = StaticField.MyBS.GetStringDiff(desc2l, desc2);
 
-            ShardSText.Texts[ninx] = SetValue(ShardSText.Texts[ninx], name);
-            ShardSText.Texts[d1inx] = SetValue(ShardSText.Texts[d1inx], desc1);
-            ShardSText.Texts[d2inx] = SetValue(ShardSText.Texts[d2inx], desc2);
+            Extra.SetExtraData((int)skill.NameOff, namel, SetValue(namel, name));
+            Extra.SetExtraData((int)skill.DescriptionOff1, desc1l, SetValue(desc1l, desc1));
+            Extra.SetExtraData((int)skill.DescriptionOff2, desc2l, SetValue(desc2l, desc2));
 
             skill.DescriptionOff1 += diff1;
-            ShardSText.Offsets[d1inx] += diff1;
             skill.DescriptionOff2 += diff1 + diff2;
-            ShardSText.Offsets[d2inx] += diff1 + diff2;
 
-            TextReSetOff(diff1 + diff2 + diff3, i + 1, d2inx + 1);
+            TextReSetOff(diff1 + diff2 + diff3, i + 1);
+
 
             SetValue(ref skill.BaseChance, mw.baseCTB.Text);
             SetValue(ref skill.SboostChance, mw.sBCTB.Text);
@@ -302,7 +297,7 @@ namespace KuroModifyTool.KuroTable
             SetValue(ref skill.Effects[1].Param3, mw.effp23TBSS.Text);
         }
 
-        private void TextReSetOff(ulong diff, int i, int j)
+        private void TextReSetOff(ulong diff, int i)
         {
             if (diff == 0)
             {
@@ -317,11 +312,6 @@ namespace KuroModifyTool.KuroTable
                 ShardSkills[i].NameOff += diff;
                 ShardSkills[i].DescriptionOff1 += diff;
                 ShardSkills[i].DescriptionOff2 += diff;
-            }
-
-            for (; j < ShardSText.Offsets.Count; j++)
-            {
-                ShardSText.Offsets[j] += diff;
             }
         }
     }

@@ -204,8 +204,7 @@ namespace KuroModifyTool
                 {
                     foreach (ItemTable.ItemTableData item in itemTable.Items)
                     {
-                        int ninx = itemTable.ItemText.Offsets.FindIndex(o => o == item.NameOff);
-                        MW.itemList.Items.Add(itemTable.ItemText.Texts[ninx]);
+                        MW.itemList.Items.Add(itemTable.Extra.GetExtraData((int)item.NameOff, typeof(string)));
                     }
                 }
                 else
@@ -219,8 +218,7 @@ namespace KuroModifyTool
                 {
                     foreach (SkillTable.SkillParam skill in skillTable.Skills)
                     {
-                        int ninx = skillTable.SkillText.Offsets.FindIndex(o => o == skill.NameOff);
-                        MW.skillList.Items.Add(skillTable.SkillText.Texts[ninx]);
+                        MW.skillList.Items.Add(skillTable.Extra.GetExtraData((int)skill.NameOff, typeof(string)));
                     }
                 }
                 else
@@ -234,8 +232,7 @@ namespace KuroModifyTool
                 {
                     foreach (ShardSkillTable.ShardSkillParam shardS in shardSTable.ShardSkills)
                     {
-                        int ninx = shardSTable.ShardSText.Offsets.FindIndex(o => o == shardS.NameOff);
-                        MW.shardSList.Items.Add(shardSTable.ShardSText.Texts[ninx]);
+                        MW.shardSList.Items.Add(shardSTable.Extra.GetExtraData((int)shardS.NameOff, typeof(string)));
                     }
                 }
                 else
@@ -250,9 +247,8 @@ namespace KuroModifyTool
                     foreach (HollowCoreTable.HollowCoreLevelParam hc in hollowCTable.LevelParams)
                     {
                         ulong off = Array.Find(itemTable.Items, item => item.ID == hc.ItemID).NameOff;
-                        int ninx = itemTable.ItemText.Offsets.FindIndex(o => o == off);
 
-                        MW.hollowCList.Items.Add(itemTable.ItemText.Texts[ninx] + "：等级" + hc.Level);
+                        MW.hollowCList.Items.Add(itemTable.Extra.GetExtraData((int)off, typeof(string)) + "：等级" + hc.Level);
                     }
                 }
                 else
@@ -273,9 +269,7 @@ namespace KuroModifyTool
                         }
                         else
                         {
-                            int ninx = itemTable.ItemText.Offsets.FindIndex(o => o == item.NameOff);
-
-                            MW.artsDList.Items.Add(itemTable.ItemText.Texts[ninx]);
+                            MW.artsDList.Items.Add(itemTable.Extra.GetExtraData((int)item.NameOff, typeof(string)));
                         }
                     }
                 }
@@ -290,9 +284,7 @@ namespace KuroModifyTool
                 {
                     foreach (VoiceTable.VoiceTableData v in voiceTable.Voices)
                     {
-                        int ninx = voiceTable.VoiceText.Offsets.FindIndex(o => o == v.FileNameOff);
-
-                        MW.voiceList.Items.Add(voiceTable.VoiceText.Texts[ninx]);
+                        MW.voiceList.Items.Add(voiceTable.Extra.GetExtraData((int)v.FileNameOff, typeof(string)));
                     }
                 }
                 else

@@ -1,6 +1,7 @@
 ﻿using KuroModifyTool.KuroTable;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -177,6 +178,46 @@ namespace KuroModifyTool
             }
         }
 
+        public int GetDataLen(object obj)
+        {
+            Type type = obj.GetType();
+
+            if (type == typeof(string))
+            {
+                return Encoding.UTF8.GetBytes((string)obj).Length + 1;
+            }
+            else if (type == typeof(byte))
+            {
+                return 1;
+            }
+            else if (type == typeof(ushort))
+            {
+                return 2;
+            }
+            else if (type == typeof(short))
+            {
+                return 2;
+            }
+            else if (type == typeof(uint))
+            {
+                return 4;
+            }
+            else if (type == typeof(int))
+            {
+                return 4;
+            }
+            else if (type == typeof(ulong))
+            {
+                return 8;
+            }
+            else if (type == typeof(float))
+            {
+                return 4;
+            }
+
+            return -1;
+        }
+
         public dynamic GetNode(SubHeader[] nodes, Type type, byte[] buffer, ref int i)
         {
             if (!type.IsArray)
@@ -195,66 +236,6 @@ namespace KuroModifyTool
             }
 
             return arr;
-        }
-
-        public void GetTextData(byte[] buffer, TextData td)
-        {
-            int sinx = td.StartIndex;
-            int einx = td.EndIndex;
-
-            for (; sinx < einx;)
-            {
-                td.Offsets.Add((ulong)sinx);
-                td.Texts.Add(DeSerialization(typeof(string), buffer, ref sinx));
-            }
-        }
-
-        public void GetUintData(byte[] buffer, UintData td)
-        {
-            int sinx = td.StartIndex;
-            int einx = td.EndIndex;
-
-            for (; sinx < einx;)
-            {
-                td.Offsets.Add((ulong)sinx);
-                td.Nums.Add(DeSerialization(typeof(uint), buffer, ref sinx));
-            }
-        }
-
-        public void GetUshortData(byte[] buffer, UshortData td)
-        {
-            int sinx = td.StartIndex;
-            int einx = td.EndIndex;
-
-            for (; sinx < einx;)
-            {
-                td.Offsets.Add((ulong)sinx);
-                td.Nums.Add(DeSerialization(typeof(ushort), buffer, ref sinx));
-            }
-        }
-
-        public void SetTextData(List<byte> modify, TextData td)
-        {
-            foreach (string value in td.Texts)
-            {
-                Serialization(value, modify);
-            }
-        }
-
-        public void SetTextData(List<byte> modify, UintData td)
-        {
-            foreach (uint value in td.Nums)
-            {
-                Serialization(value, modify);
-            }
-        }
-
-        public void SetTextData(List<byte> modify, UshortData td)
-        {
-            foreach (ushort value in td.Nums)
-            {
-                Serialization(value, modify);
-            }
         }
 
         public ulong GetStringDiff(string o, string n)

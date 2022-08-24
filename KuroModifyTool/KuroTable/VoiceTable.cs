@@ -37,7 +37,7 @@ namespace KuroModifyTool.KuroTable
             public ulong TextOff;
         }
 
-        public TextData VoiceText;
+        public BottomData Extra;
 
         private readonly string filename = "t_voice.tbl";
 
@@ -59,8 +59,7 @@ namespace KuroModifyTool.KuroTable
 
             Voices = StaticField.MyBS.GetNode(Nodes, typeof(VoiceTableData[]), buffer, ref i);
 
-            VoiceText = new TextData(TextData.GetTextStartOff(Nodes, "VoiceTableData"), buffer.Length);
-            StaticField.MyBS.GetTextData(buffer, VoiceText);
+            Extra = new BottomData(Nodes, "VoiceTableData", buffer);
         }
 
         public override void Save()
@@ -75,7 +74,7 @@ namespace KuroModifyTool.KuroTable
 
             StaticField.MyBS.Serialization(Voices, modify);
 
-            StaticField.MyBS.SetTextData(modify, VoiceText);
+            modify.AddRange(Extra.ExtraData);
 
             FileTools.BufferToFile(StaticField.TBLPath + filename, modify.ToArray());
         }
@@ -84,35 +83,26 @@ namespace KuroModifyTool.KuroTable
         {
             VoiceTableData v = Voices[i];
 
-            int ninx = VoiceText.Offsets.FindIndex(o => o == v.FileNameOff);
-            int tinx = VoiceText.Offsets.FindIndex(o => o == v.TextOff);
-            mw.nameTBV.Text = VoiceText.Texts[ninx];
-            mw.textTBV.Text = VoiceText.Texts[tinx];
+            mw.nameTBV.Text = Extra.GetExtraData((int)v.FileNameOff, typeof(string));
+            mw.textTBV.Text = Extra.GetExtraData((int)v.TextOff, typeof(string));
         }
 
         public override void UIToData(MainWindow mw, MainFunc mf, int i)
         {
             VoiceTableData v = Voices[i];
 
-            string name = mw.nameTBV.Text;
             string text = mw.textTBV.Text;
 
-            int ninx = VoiceText.Offsets.FindIndex(o => o == v.FileNameOff);
-            int tinx = VoiceText.Offsets.FindIndex(o => o == v.TextOff);
+            string textl = Extra.GetExtraData((int)v.TextOff, typeof(string));
 
-            ulong diff1 = StaticField.MyBS.GetStringDiff(VoiceText.Texts[ninx], name);
-            ulong diff2 = StaticField.MyBS.GetStringDiff(VoiceText.Texts[tinx], text);
+            ulong diff1 = StaticField.MyBS.GetStringDiff(textl, text);
 
-            VoiceText.Texts[ninx] = SetValue(VoiceText.Texts[ninx], name);
-            VoiceText.Texts[tinx] = SetValue(VoiceText.Texts[tinx], text);
+            Extra.SetExtraData((int)v.TextOff, textl, SetValue(textl, text));
 
-            v.TextOff += diff1 + diff2;
-            VoiceText.Offsets[tinx] += diff1 + diff2;
-
-            TextReSetOff(diff1 + diff2, i + 1, tinx + 1);
+            TextReSetOff(diff1, i + 1);
         }
 
-        private void TextReSetOff(ulong diff, int i, int j)
+        private void TextReSetOff(ulong diff, int i)
         {
             if (diff == 0)
             {
@@ -123,11 +113,6 @@ namespace KuroModifyTool.KuroTable
             {
                 Voices[i].FileNameOff += diff;
                 Voices[i].TextOff += diff;
-            }
-
-            for (; j < VoiceText.Offsets.Count; j++)
-            {
-                VoiceText.Offsets[j] += diff;
             }
         }
     }

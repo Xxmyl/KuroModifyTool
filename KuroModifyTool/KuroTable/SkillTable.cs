@@ -128,7 +128,7 @@ namespace KuroModifyTool.KuroTable
             public ushort GrendelCharID;
         }
 
-        public TextData SkillText;
+        public BottomData Extra;
 
         private readonly string filename = "t_skill.tbl";
 
@@ -159,9 +159,7 @@ namespace KuroModifyTool.KuroTable
             //SkillGrendelParam
             GrendelParams = StaticField.MyBS.GetNode(Nodes, typeof(SkillGrendelParam[]), buffer, ref i);
 
-
-            SkillText = new TextData(TextData.GetTextStartOff(Nodes, "SkillGrendelParam"), buffer.Length);
-            StaticField.MyBS.GetTextData(buffer, SkillText);
+            Extra = new BottomData(Nodes, "SkillGrendelParam", buffer);
             //DebugLog();
         }
 
@@ -180,7 +178,7 @@ namespace KuroModifyTool.KuroTable
             StaticField.MyBS.Serialization(ChangeParams, modify);
             StaticField.MyBS.Serialization(GrendelParams, modify);
 
-            StaticField.MyBS.SetTextData(modify, SkillText);
+            modify.AddRange(Extra.ExtraData);
 
             FileTools.BufferToFile(StaticField.TBLPath + filename, modify.ToArray());
         }
@@ -193,8 +191,6 @@ namespace KuroModifyTool.KuroTable
             {
                 FileTools.WriteLog(Skills[i].ID.ToString());
                 FileTools.WriteLog(":");
-                int d1inx = SkillText.Offsets.FindIndex(o => o == Skills[i].NameOff);
-                FileTools.WriteLog(SkillText.Texts[d1inx]);
 
                 
 
@@ -223,12 +219,9 @@ namespace KuroModifyTool.KuroTable
         {
             SkillParam skill = Skills[i];
 
-            int ninx = SkillText.Offsets.FindIndex(o => o == skill.NameOff);
-            int d1inx = SkillText.Offsets.FindIndex(o => o == skill.DescriptionOff1);
-            int d2inx = SkillText.Offsets.FindIndex(o => o == skill.DescriptionOff2);
-            mw.nameTBS.Text = SkillText.Texts[ninx];
-            mf.Skill1RichText = SkillText.Texts[d1inx];
-            mf.Skill2RichText = SkillText.Texts[d2inx];
+            mw.nameTBS.Text = Extra.GetExtraData((int)skill.NameOff, typeof(string));
+            mf.Skill1RichText = Extra.GetExtraData((int)skill.DescriptionOff1, typeof(string));
+            mf.Skill2RichText = Extra.GetExtraData((int)skill.DescriptionOff2, typeof(string));
 
             mw.rangeCB.SelectedIndex = GetRangeType(skill);
             mw.rangep1TB.Text = skill.RangeParam1.ToString();
@@ -309,26 +302,24 @@ namespace KuroModifyTool.KuroTable
             string desc1 = mf.Skill1RichText;
             string desc2 = mf.Skill2RichText;
 
-            int ninx = SkillText.Offsets.FindIndex(o => o == skill.NameOff);
-            int d1inx = SkillText.Offsets.FindIndex(o => o == skill.DescriptionOff1);
-            int d2inx = SkillText.Offsets.FindIndex(o => o == skill.DescriptionOff2);
+            string namel = Extra.GetExtraData((int)skill.NameOff, typeof(string));
+            string desc1l = Extra.GetExtraData((int)skill.DescriptionOff1, typeof(string));
+            string desc2l = Extra.GetExtraData((int)skill.DescriptionOff2, typeof(string));
 
-            ulong diff1 = StaticField.MyBS.GetStringDiff(SkillText.Texts[ninx], name);
-            ulong diff2 = StaticField.MyBS.GetStringDiff(SkillText.Texts[d1inx], desc1);
-            ulong diff3 = StaticField.MyBS.GetStringDiff(SkillText.Texts[d2inx], desc2);
+            ulong diff1 = StaticField.MyBS.GetStringDiff(namel, name);
+            ulong diff2 = StaticField.MyBS.GetStringDiff(desc1l, desc1);
+            ulong diff3 = StaticField.MyBS.GetStringDiff(desc2l, desc2);
 
-            SkillText.Texts[ninx] = SetValue(SkillText.Texts[ninx], name);
-            SkillText.Texts[d1inx] = SetValue(SkillText.Texts[d1inx], desc1);
-            SkillText.Texts[d2inx] = SetValue(SkillText.Texts[d2inx], desc2);
+            Extra.SetExtraData((int)skill.NameOff, namel, SetValue(namel, name));
+            Extra.SetExtraData((int)skill.DescriptionOff1, desc1l, SetValue(desc1l, desc1));
+            Extra.SetExtraData((int)skill.DescriptionOff2, desc2l, SetValue(desc2l, desc2));
 
             skill.DescriptionOff1 += diff1;
-            SkillText.Offsets[d1inx] += diff1;
             skill.DescriptionOff2 += diff1 + diff2;
-            SkillText.Offsets[d2inx] += diff1 + diff2;
 
-            TextReSetOff(diff1 + diff2 + diff3, i + 1, d2inx + 1);
+            TextReSetOff(diff1 + diff2 + diff3, i + 1);
 
-            if(mw.rangeCB.SelectedIndex != -1)
+            if (mw.rangeCB.SelectedIndex != -1)
             {
                 SetValue(ref skill.RangeType, StaticField.RangeList[mw.rangeCB.SelectedIndex].ID);
             }
@@ -368,7 +359,7 @@ namespace KuroModifyTool.KuroTable
             SetValue(ref skill.Effects[4].Param3, mw.effp53TBS.Text);
         }
 
-        private void TextReSetOff(ulong diff, int i, int j)
+        private void TextReSetOff(ulong diff, int i)
         {
             if (diff == 0)
             {
@@ -383,11 +374,6 @@ namespace KuroModifyTool.KuroTable
                 Skills[i].NameOff += diff;
                 Skills[i].DescriptionOff1 += diff;
                 Skills[i].DescriptionOff2 += diff;
-            }
-
-            for (; j < SkillText.Offsets.Count; j++)
-            {
-                SkillText.Offsets[j] += diff;
             }
         }
     }

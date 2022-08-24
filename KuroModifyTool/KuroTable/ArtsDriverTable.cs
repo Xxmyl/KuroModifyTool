@@ -116,9 +116,7 @@ namespace KuroModifyTool.KuroTable
             }
             else
             {
-                int ninx = mf.itemTable.ItemText.Offsets.FindIndex(o => o == item.NameOff);
-
-                mw.nameTBAD.Text = mf.itemTable.ItemText.Texts[ninx];
+                mw.nameTBAD.Text = mf.itemTable.Extra.GetExtraData((int)item.NameOff, typeof(string));
             }
 
             mw.fixCBAD.SelectedIndex = ad.FixedSolt;

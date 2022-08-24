@@ -175,7 +175,7 @@ namespace KuroModifyTool.KuroTable
             public ShopEffect[] Effects;
         }
 
-        public TextData ShopText;
+        public BottomData Extra;
 
         private readonly string filename = "t_shop.tbl";
         //Debug
@@ -204,9 +204,8 @@ namespace KuroModifyTool.KuroTable
             Convs = StaticField.MyBS.GetNode(Nodes, typeof(ShopConv[]), buffer, ref i);
             TradeItems = StaticField.MyBS.GetNode(Nodes, typeof(TradeItem[]), buffer, ref i);
 
-            ShopText = new TextData(TextData.GetTextStartOff(Nodes, "TradeItem"), (int)ShopItems.First().Off1);
-            StaticField.MyBS.GetTextData(buffer, ShopText);
-            DebugLog();
+            Extra = new BottomData(Nodes, "TradeItem", buffer);
+            //DebugLog();
         }
 
         public void DebugLog()
@@ -244,12 +243,12 @@ namespace KuroModifyTool.KuroTable
                 FileTools.WriteLog(",");
                 FileTools.WriteLog(Infos[i].Unknown13.ToString());*/
 
-                FileTools.WriteLog(ShopItems[i].ID.ToString());
+                /*FileTools.WriteLog(ShopItems[i].ID.ToString());
                 FileTools.WriteLog(":");
                 ItemTable.ItemTableData itemf = Array.Find(TestItem.Items, it => it.ID == ShopItems[i].ItemID);
                 int dinx = TestItem.ItemText.Offsets.FindIndex(o => o == itemf.NameOff);
                 FileTools.WriteLog(TestItem.ItemText.Texts[dinx]);
-                FileTools.WriteLog(",");
+                FileTools.WriteLog(",");*/
                 /*int d1inx = ShopText.Offsets.FindIndex(o => o == Infos[i].NameOff);
                 FileTools.WriteLog(ShopText.Texts[d1inx]);
                 FileTools.WriteLog(",");*/

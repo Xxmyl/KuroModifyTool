@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace KuroModifyTool.KuroTable
 {
@@ -192,57 +194,49 @@ namespace KuroModifyTool.KuroTable
     {
         public int StartIndex;
 
-        public int EndIndex;
+        public byte[] ExtraData;
 
-        public List<ulong> Offsets;
-
-        public BottomData(int sinx, int einx)
+        public BottomData(SubHeader[] nodes, string name,byte[] buf)
         {
-            StartIndex = sinx;
-            EndIndex = einx;
-            Offsets = new List<ulong>();
+            StartIndex = InitData(nodes, name);
+            ExtraData = new byte[buf.Length - StartIndex];
+            Array.Copy(buf, StartIndex, ExtraData, 0, ExtraData.Length);
         }
 
-        public static int GetTextStartOff(SubHeader[] nodes, string name)
+        private int InitData(SubHeader[] nodes, string name)
         {
             SubHeader node = Array.Find<SubHeader>(nodes, n => new string(n.Name).StartsWith(name));
             return (int)(node.DataOffset + node.DataLength * node.NodeCount);
         }
-    }
 
-    public class TextData : BottomData
-    {
-        public List<string> Texts;
-
-        public TextData(int sinx, int einx) : base(sinx, einx)
+        public dynamic GetExtraData(int off, Type type)
         {
-            StartIndex = sinx;
-            EndIndex = einx;
-            Texts = new List<string>();
+            off = off - StartIndex;
+
+            return StaticField.MyBS.DeSerialization(type, ExtraData, ref off);
         }
-    }
 
-    public class UintData : BottomData
-    {
-        public List<uint> Nums;
-
-        public UintData(int sinx, int einx) : base(sinx, einx)
+        public void SetExtraData(int off, object old, object obj)
         {
-            StartIndex = sinx;
-            EndIndex = einx;
-            Nums = new List<uint>();
-        }
-    }
+            if(obj == null || old.Equals(obj))
+            {
+                return;
+            }
 
-    public class UshortData : BottomData
-    {
-        public List<ushort> Nums;
+            off = off - StartIndex;
+            int len = StaticField.MyBS.GetDataLen(old);
 
-        public UshortData(int sinx, int einx) : base(sinx, einx)
-        {
-            StartIndex = sinx;
-            EndIndex = einx;
-            Nums = new List<ushort>();
+            List<byte> bytes = new List<byte>();
+            StaticField.MyBS.Serialization(obj, bytes);
+
+            byte[] buf1 = new byte[off];
+            Array.Copy(ExtraData, 0, buf1, 0, buf1.Length);
+            off = off + len;
+            byte[] buf2 = new byte[ExtraData.Length - off];
+            Array.Copy(ExtraData, off, buf2, 0, buf2.Length);
+
+            ExtraData = buf1.Concat(bytes.ToArray()).ToArray();
+            ExtraData = ExtraData.Concat(buf2.ToArray()).ToArray();
         }
     }
 

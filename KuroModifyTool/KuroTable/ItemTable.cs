@@ -200,7 +200,7 @@ namespace KuroModifyTool.KuroTable
             public uint Unknown2;
         }
 
-        public TextData ItemText;
+        public BottomData Extra;
 
         private readonly string filename = "t_item.tbl";
 
@@ -228,9 +228,7 @@ namespace KuroModifyTool.KuroTable
             //QuartzParam
             QuartzParams = StaticField.MyBS.GetNode(Nodes, typeof(QuartzParam[]), buffer, ref i);
 
-
-            ItemText = new TextData(TextData.GetTextStartOff(Nodes, "QuartzParam"), buffer.Length);
-            StaticField.MyBS.GetTextData(buffer, ItemText);
+            Extra = new BottomData(Nodes, "QuartzParam", buffer);
         }
 
         public override void Save()
@@ -247,7 +245,7 @@ namespace KuroModifyTool.KuroTable
             StaticField.MyBS.Serialization(KindParams, modify);
             StaticField.MyBS.Serialization(QuartzParams, modify);
 
-            StaticField.MyBS.SetTextData(modify, ItemText);
+            modify.AddRange(Extra.ExtraData);
 
             FileTools.BufferToFile(StaticField.TBLPath + filename, modify.ToArray());
         }
@@ -256,10 +254,8 @@ namespace KuroModifyTool.KuroTable
         {
             ItemTableData item = Items[i];
 
-            int ninx = ItemText.Offsets.FindIndex(o => o == item.NameOff);
-            int dinx = ItemText.Offsets.FindIndex(o => o == item.DescriptionOff);
-            mw.nameTB.Text = ItemText.Texts[ninx];
-            mf.ItemRichText = ItemText.Texts[dinx];
+            mw.nameTB.Text = Extra.GetExtraData((int)item.NameOff, typeof(string));
+            mf.ItemRichText = Extra.GetExtraData((int)item.DescriptionOff, typeof(string));
 
             mw.uplimitTB.Text = item.UpperLimit.ToString();
             mw.priceTB.Text = item.Price.ToString();
@@ -331,20 +327,21 @@ namespace KuroModifyTool.KuroTable
             ItemTableData item = Items[i];
 
             string name = mw.nameTB.Text;
-            string desc = mf.ItemRichText;
-            int ninx = ItemText.Offsets.FindIndex(o => o == item.NameOff);
-            int dinx = ItemText.Offsets.FindIndex(o => o == item.DescriptionOff);
+            string desc1 = mf.ItemRichText;
 
-            ulong diff1 = StaticField.MyBS.GetStringDiff(ItemText.Texts[ninx], name);
-            ulong diff2 = StaticField.MyBS.GetStringDiff(ItemText.Texts[dinx], desc);
+            string namel = Extra.GetExtraData((int)item.NameOff, typeof(string));
+            string desc1l = Extra.GetExtraData((int)item.DescriptionOff, typeof(string));
 
-            ItemText.Texts[ninx] = SetValue(ItemText.Texts[ninx], name);
-            ItemText.Texts[dinx] = SetValue(ItemText.Texts[dinx], desc);
+            ulong diff1 = StaticField.MyBS.GetStringDiff(namel, name);
+            ulong diff2 = StaticField.MyBS.GetStringDiff(desc1l, desc1);
+
+            Extra.SetExtraData((int)item.NameOff, namel, SetValue(namel, name));
+            Extra.SetExtraData((int)item.DescriptionOff, desc1l, SetValue(desc1l, desc1));
 
             item.DescriptionOff += diff1;
-            ItemText.Offsets[dinx] += diff1;
 
-            TextReSetOff(diff1 + diff2, i + 1, dinx + 1);
+            TextReSetOff(diff1 + diff2, i + 1);
+
 
             SetValue(ref item.UpperLimit, mw.uplimitTB.Text);
             SetValue(ref item.Price, mw.priceTB.Text);
@@ -411,7 +408,7 @@ namespace KuroModifyTool.KuroTable
             SetValue(ref quartz.MirageAmount, mw.mirageTB.Text);
         }
 
-        private void TextReSetOff(ulong diff, int i, int j)
+        private void TextReSetOff(ulong diff, int i)
         {
             if (diff == 0)
             {
@@ -430,11 +427,6 @@ namespace KuroModifyTool.KuroTable
             for (i = 0; i < KindParams.Length; i++)
             {
                 KindParams[i].KindTextOff += diff;
-            }
-
-            for (; j < ItemText.Offsets.Count; j++)
-            {
-                ItemText.Offsets[j] += diff;
             }
         }
     }
