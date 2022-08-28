@@ -298,21 +298,21 @@ namespace KuroModifyTool.KuroTable
         {
             SkillParam skill = Skills[i];
 
-            string name = mw.nameTBS.Text;
-            string desc1 = mf.Skill1RichText;
-            string desc2 = mf.Skill2RichText;
-
             string namel = Extra.GetExtraData((int)skill.NameOff, typeof(string));
             string desc1l = Extra.GetExtraData((int)skill.DescriptionOff1, typeof(string));
             string desc2l = Extra.GetExtraData((int)skill.DescriptionOff2, typeof(string));
+
+            string name = SetValue(namel, mw.nameTBS.Text);
+            string desc1 = SetValue(desc1l, mf.Skill1RichText);
+            string desc2 = SetValue(desc2l, mf.Skill2RichText);
 
             ulong diff1 = StaticField.MyBS.GetStringDiff(namel, name);
             ulong diff2 = StaticField.MyBS.GetStringDiff(desc1l, desc1);
             ulong diff3 = StaticField.MyBS.GetStringDiff(desc2l, desc2);
 
-            Extra.SetExtraData((int)skill.NameOff, namel, SetValue(namel, name));
-            Extra.SetExtraData((int)skill.DescriptionOff1, desc1l, SetValue(desc1l, desc1));
-            Extra.SetExtraData((int)skill.DescriptionOff2, desc2l, SetValue(desc2l, desc2));
+            Extra.SetExtraData((int)skill.NameOff, namel, name);
+            Extra.SetExtraData((int)skill.DescriptionOff1, desc1l, desc1);
+            Extra.SetExtraData((int)skill.DescriptionOff2, desc2l, desc2);
 
             skill.DescriptionOff1 += diff1;
             skill.DescriptionOff2 += diff1 + diff2;

@@ -20,10 +20,13 @@ namespace KuroModifyTool
             {
                 gamePath = value;
                 TBLPath = value + "\\tc\\f\\table\\";
+                ScriptPath = value + "\\tc\\f\\script\\";
                 OpusPath = value + "\\voice\\opus\\";
             }
         }
         public static string TBLPath;
+
+        public static string ScriptPath;
 
         public static string OpusPath;
 

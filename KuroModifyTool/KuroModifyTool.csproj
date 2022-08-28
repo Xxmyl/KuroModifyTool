@@ -74,6 +74,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ArtsDriverUIFunc.cs" />
+    <Compile Include="KuroScript\DatScript.cs" />
     <Compile Include="KuroTable\ArtsDriverTable.cs" />
     <Compile Include="KuroTable\HollowCoreTable.cs" />
     <Compile Include="KuroTable\ShardSkillTable.cs" />

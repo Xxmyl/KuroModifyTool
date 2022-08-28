@@ -1,4 +1,5 @@
-﻿using KuroModifyTool.KuroTable;
+﻿using KuroModifyTool.KuroScript;
+using KuroModifyTool.KuroTable;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -182,6 +183,9 @@ namespace KuroModifyTool
 
         private void ListInit()
         {
+            DatScript dat = new DatScript();
+            dat.Load();
+
             itemTable = new ItemTable();
 
             skillTable = new SkillTable();

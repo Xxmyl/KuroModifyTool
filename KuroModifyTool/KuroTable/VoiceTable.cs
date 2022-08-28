@@ -91,13 +91,13 @@ namespace KuroModifyTool.KuroTable
         {
             VoiceTableData v = Voices[i];
 
-            string text = mw.textTBV.Text;
-
             string textl = Extra.GetExtraData((int)v.TextOff, typeof(string));
+
+            string text = SetValue(textl, mw.textTBV.Text);
 
             ulong diff1 = StaticField.MyBS.GetStringDiff(textl, text);
 
-            Extra.SetExtraData((int)v.TextOff, textl, SetValue(textl, text));
+            Extra.SetExtraData((int)v.TextOff, textl, text);
 
             TextReSetOff(diff1, i + 1);
         }

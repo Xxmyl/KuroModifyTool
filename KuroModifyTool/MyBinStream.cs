@@ -228,11 +228,16 @@ namespace KuroModifyTool
             SubHeader node = Array.Find<SubHeader>(nodes, n => new string(n.Name).StartsWith(type.GetElementType().Name));
             i = (int)node.DataOffset;
 
-            Array arr = Array.CreateInstance(type.GetElementType(), node.NodeCount);
+            return GetArrayData(type.GetElementType(), node.NodeCount, buffer, ref i);
+        }
 
-            for (int j = 0; j < node.NodeCount; j++)
+        public dynamic GetArrayData(Type type, uint len, byte[] buffer, ref int i)
+        {
+            Array arr = Array.CreateInstance(type, len);
+
+            for (int j = 0; j < len; j++)
             {
-                arr.SetValue(DeSerialization(type.GetElementType(), buffer, ref i), j);
+                arr.SetValue(DeSerialization(type, buffer, ref i), j);
             }
 
             return arr;
@@ -241,6 +246,13 @@ namespace KuroModifyTool
         public ulong GetStringDiff(string o, string n)
         {
             return (ulong)(Encoding.UTF8.GetBytes(n).Length - Encoding.UTF8.GetBytes(o).Length);
+        }
+
+        public uint Remove2MSB(uint off)
+        {
+            uint a = off << 2;
+            uint b = a >> 2;
+            return b;
         }
     }
 

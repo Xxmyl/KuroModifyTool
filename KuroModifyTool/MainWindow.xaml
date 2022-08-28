@@ -1031,7 +1031,7 @@
                                         <hc:SimpleText VerticalAlignment="Center" Text="名称"/>
                                         <hc:TextBox x:Name="nameTBV" Grid.Column="1" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="206" HorizontalAlignment="Left" IsReadOnly="True"/>
                                         <hc:SimpleText VerticalAlignment="Center" Text="描述" Grid.Row="1"/>
-                                        <hc:TextBox x:Name="textTBV" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="361" HorizontalAlignment="Center" Grid.Row="1"/>
+                                        <hc:TextBox x:Name="textTBV" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="361" HorizontalAlignment="Left" Grid.Row="1" Margin="10,0,0,0"/>
                                     </Grid>
                                 </GroupBox>
 

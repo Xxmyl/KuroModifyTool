@@ -338,9 +338,6 @@ namespace KuroModifyTool.KuroTable
         {
             HollowCoreLevelParam hc = LevelParams[i];
 
-            string name = mw.name2TBHC.Text;
-            string desc1 = mf.HollowCRichText;
-
             int inx = Array.FindIndex(BaseParams, t => t.ItemID == hc.ItemID);
 
             ulong noff = BaseParams[inx].TitleOff;
@@ -348,11 +345,14 @@ namespace KuroModifyTool.KuroTable
             string namel = Extra.GetExtraData((int)noff, typeof(string));
             string desc1l = Extra.GetExtraData((int)hc.DescriptionOff, typeof(string));
 
+            string name = SetValue(namel, mw.name2TBHC.Text);
+            string desc1 = SetValue(desc1l, mf.HollowCRichText);
+
             ulong diff1 = StaticField.MyBS.GetStringDiff(namel, name);
             ulong diff2 = StaticField.MyBS.GetStringDiff(desc1l, desc1);
 
-            Extra.SetExtraData((int)noff, namel, SetValue(namel, name));
-            Extra.SetExtraData((int)hc.DescriptionOff, desc1l, SetValue(desc1l, desc1));
+            Extra.SetExtraData((int)noff, namel, name);
+            Extra.SetExtraData((int)hc.DescriptionOff, desc1l, desc1);
 
             BaseParams[inx].TextOff1 += diff1;
             BaseParams[inx].NameOff += diff1;

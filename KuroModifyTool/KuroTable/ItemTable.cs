@@ -326,17 +326,17 @@ namespace KuroModifyTool.KuroTable
         {
             ItemTableData item = Items[i];
 
-            string name = mw.nameTB.Text;
-            string desc1 = mf.ItemRichText;
-
             string namel = Extra.GetExtraData((int)item.NameOff, typeof(string));
             string desc1l = Extra.GetExtraData((int)item.DescriptionOff, typeof(string));
+
+            string name = SetValue(namel, mw.nameTB.Text);
+            string desc1 = SetValue(desc1l, mf.ItemRichText);
 
             ulong diff1 = StaticField.MyBS.GetStringDiff(namel, name);
             ulong diff2 = StaticField.MyBS.GetStringDiff(desc1l, desc1);
 
             Extra.SetExtraData((int)item.NameOff, namel, SetValue(namel, name));
-            Extra.SetExtraData((int)item.DescriptionOff, desc1l, SetValue(desc1l, desc1));
+            Extra.SetExtraData((int)item.DescriptionOff, desc1l, desc1);
 
             item.DescriptionOff += diff1;
 
@@ -350,7 +350,7 @@ namespace KuroModifyTool.KuroTable
             SetValue(ref item.HP, mw.hpTB.Text);
             SetValue(ref item.EP, mw.epTB.Text);
             SetValue(ref item.STR, mw.strTB.Text);
-            SetValue(ref item.DEF, mw.strTB.Text);
+            SetValue(ref item.DEF, mw.defTB.Text);
             SetValue(ref item.AST, mw.atsTB.Text);
             SetValue(ref item.ADF, mw.adfTB.Text);
             SetValue(ref item.AGL, mw.aglTB.Text);
