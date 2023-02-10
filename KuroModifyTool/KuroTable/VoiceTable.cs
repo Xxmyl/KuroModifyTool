@@ -39,17 +39,14 @@ namespace KuroModifyTool.KuroTable
 
         public BottomData Extra;
 
-        private readonly string filename = "t_voice.tbl";
-
-        public VoiceTable()
+        public VoiceTable() : base("t_voice.tbl")
         {
-            Load();
         }
 
         public override void Load()
         {
             int i = 0;
-            byte[] buffer = ReadHeader(filename, ref i);
+            byte[] buffer = ReadHeader(StaticField.TBLPath1 + FileName, ref i);
 
             if (buffer == null)
             {
@@ -76,7 +73,9 @@ namespace KuroModifyTool.KuroTable
 
             modify.AddRange(Extra.ExtraData);
 
-            FileTools.BufferToFile(StaticField.TBLPath + filename, modify.ToArray());
+            byte[] data = StaticField.MyBS.CLEPack(modify.ToArray(), StaticField.CurrentCLEF);
+            FileTools.BufferToFile(StaticField.TBLPath1 + FileName, data);
+            //FileTools.PackTbl(StaticField.LocalTbl + filename, StaticField.TBLPath1 + filename);
         }
 
         public override void DataToUI(MainWindow mw, MainFunc mf, int i)

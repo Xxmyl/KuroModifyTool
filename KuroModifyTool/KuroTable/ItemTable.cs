@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandyControl.Interactivity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -38,97 +39,94 @@ namespace KuroModifyTool.KuroTable
             public ushort Nature;
 
             [FieldIndexAttr(Index = 9)]
-            public byte Range1;
+            public ushort Range;
 
             [FieldIndexAttr(Index = 10)]
-            public byte Range2;
-
-            [FieldIndexAttr(Index = 11)]
             public ushort Unknown1;
 
-            [FieldIndexAttr(Index = 12)]
+            [FieldIndexAttr(Index = 11)]
             public float Unknown2;
 
-            [FieldIndexAttr(Index = 13)]
+            [FieldIndexAttr(Index = 12)]
             public float Unknown3;
 
-            [FieldIndexAttr(Index = 14)]
+            [FieldIndexAttr(Index = 13)]
             [BinStreamAttr(Length = 5)]
             public Effect[] Effects;
 
-            [FieldIndexAttr(Index = 15)]
+            [FieldIndexAttr(Index = 14)]
             public float Unknown4;
 
-            [FieldIndexAttr(Index = 16)]
+            [FieldIndexAttr(Index = 15)]
             public uint HP;
 
-            [FieldIndexAttr(Index = 17)]
+            [FieldIndexAttr(Index = 16)]
             public uint EP;
 
-            [FieldIndexAttr(Index = 18)]
+            [FieldIndexAttr(Index = 17)]
             public uint PhysicalAttack;
 
-            [FieldIndexAttr(Index = 19)]
+            [FieldIndexAttr(Index = 18)]
             public uint PhysicalDefense;
 
-            [FieldIndexAttr(Index = 20)]
+            [FieldIndexAttr(Index = 19)]
             public uint MagicAttack;
 
-            [FieldIndexAttr(Index = 21)]
+            [FieldIndexAttr(Index = 20)]
             public uint MagicDefense;
 
-            [FieldIndexAttr(Index = 22)]
+            [FieldIndexAttr(Index = 21)]
             public uint STR;
 
-            [FieldIndexAttr(Index = 23)]
+            [FieldIndexAttr(Index = 22)]
             public uint DEF;
 
-            [FieldIndexAttr(Index = 24)]
+            [FieldIndexAttr(Index = 23)]
             public uint AST;
 
-            [FieldIndexAttr(Index = 25)]
+            [FieldIndexAttr(Index = 24)]
             public uint ADF;
 
-            [FieldIndexAttr(Index = 26)]
+            [FieldIndexAttr(Index = 25)]
             public uint AGL;
 
-            [FieldIndexAttr(Index = 27)]
+            [FieldIndexAttr(Index = 26)]
             public uint DEX;
 
-            [FieldIndexAttr(Index = 28)]
+            [FieldIndexAttr(Index = 27)]
             public uint Accuracy;
 
-            [FieldIndexAttr(Index = 29)]
+            [FieldIndexAttr(Index = 28)]
             public uint Dodge;
 
-            [FieldIndexAttr(Index = 30)]
+            [FieldIndexAttr(Index = 29)]
             public uint MagicDodge;
 
-            [FieldIndexAttr(Index = 31)]
+            [FieldIndexAttr(Index = 30)]
             public uint Critical;
 
-            [FieldIndexAttr(Index = 32)]
+            [FieldIndexAttr(Index = 31)]
             public uint SPD;
 
-            [FieldIndexAttr(Index = 33)]
+            [FieldIndexAttr(Index = 32)]
             public uint MOV;
 
-            [FieldIndexAttr(Index = 34)]
+            [FieldIndexAttr(Index = 33)]
             public uint UpperLimit;
 
-            [FieldIndexAttr(Index = 35)]
+            [FieldIndexAttr(Index = 34)]
             public uint Price;
 
-            [FieldIndexAttr(Index = 36)]
+            [FieldIndexAttr(Index = 35)]
             public ulong TextOff3;
 
-            [FieldIndexAttr(Index = 37)]
+            [FieldIndexAttr(Index = 36)]
             public ulong NameOff;
 
-            [FieldIndexAttr(Index = 38)]
+            [FieldIndexAttr(Index = 37)]
             public ulong DescriptionOff;
 
-            [FieldIndexAttr(Index = 39)]
+            [FieldIndexAttr(Index = 38)]
             [BinStreamAttr(Length = 16)]
             public byte[] Data;
         }
@@ -142,6 +140,17 @@ namespace KuroModifyTool.KuroTable
 
             [FieldIndexAttr(Index = 1)]
             public ulong KindTextOff;
+        }
+
+        public ItemTabType[] TabTypes;
+
+        public class ItemTabType
+        {
+            [FieldIndexAttr(Index = 0)]
+            public int Unknown1;
+
+            [FieldIndexAttr(Index = 1)]
+            public ulong Unknown2;
         }
 
         public QuartzParam[] QuartzParams;
@@ -202,17 +211,14 @@ namespace KuroModifyTool.KuroTable
 
         public BottomData Extra;
 
-        private readonly string filename = "t_item.tbl";
-
-        public ItemTable()
+        public ItemTable() : base("t_item.tbl")
         {
-            Load();
         }
 
         public override void Load()
         {
             int i = 0;
-            byte[] buffer = ReadHeader(filename, ref i);
+            byte[] buffer = ReadHeader(StaticField.TBLPath + FileName, ref i);
 
             if (buffer == null)
             {
@@ -225,12 +231,45 @@ namespace KuroModifyTool.KuroTable
             //ItemKindParam2
             KindParams = StaticField.MyBS.GetNode(Nodes, typeof(ItemKindParam2[]), buffer, ref i);
 
+            //ItemTabType
+            TabTypes = StaticField.MyBS.GetNode(Nodes, typeof(ItemTabType[]), buffer, ref i);
+
             //QuartzParam
             QuartzParams = StaticField.MyBS.GetNode(Nodes, typeof(QuartzParam[]), buffer, ref i);
-
+            
             Extra = new BottomData(Nodes, "QuartzParam", buffer);
-        }
 
+            //DebugLog();
+        }
+        public void DebugLog()
+        {
+            FileTools.LogPath = ".\\log.txt";
+
+            Dictionary<uint, string> kinddic = new Dictionary<uint, string>();
+            for (int i = 0; i < KindParams.Length; i++)
+            {
+                kinddic.Add((uint)KindParams[i].ItemID, Extra.GetExtraData((int)KindParams[i].KindTextOff, typeof(string)));
+            }
+
+            for (int i = 0; i < Items.Length; i++)
+            {
+                FileTools.WriteLog(Extra.GetExtraData((int)Items[i].NameOff, typeof(string)));
+                FileTools.WriteLog("(");
+                FileTools.WriteLog(kinddic[Items[i].ItemKind1]);
+                FileTools.WriteLog(",");
+                FileTools.WriteLog(kinddic[Items[i].ItemKind2]);
+                FileTools.WriteLog(",");
+                FileTools.WriteLog(Items[i].ItemIcon.ToString());
+                FileTools.WriteLog(",");
+                FileTools.WriteLog(Items[i].Nature.ToString());
+                FileTools.WriteLog(",");
+                FileTools.WriteLog(StaticField.RangeList.Find(od => ushort.Parse(od.ID) == Items[i].Range).Description);
+                FileTools.WriteLog(")");
+                FileTools.WriteLog("\n");
+            }
+
+            FileTools.CloseLog();
+        }
         public override void Save()
         {
             List<byte> modify = new List<byte>();
@@ -243,11 +282,14 @@ namespace KuroModifyTool.KuroTable
 
             StaticField.MyBS.Serialization(Items, modify);
             StaticField.MyBS.Serialization(KindParams, modify);
+            StaticField.MyBS.Serialization(TabTypes, modify);
             StaticField.MyBS.Serialization(QuartzParams, modify);
 
             modify.AddRange(Extra.ExtraData);
 
-            FileTools.BufferToFile(StaticField.TBLPath + filename, modify.ToArray());
+            byte[] data = StaticField.MyBS.CLEPack(modify.ToArray(), StaticField.CurrentCLEF);
+            FileTools.BufferToFile(StaticField.TBLPath + FileName, data);
+            //FileTools.PackTbl(StaticField.LocalTbl + filename, StaticField.TBLPath + filename);
         }
 
         public override void DataToUI(MainWindow mw, MainFunc mf, int i)
@@ -335,10 +377,10 @@ namespace KuroModifyTool.KuroTable
             ulong diff1 = StaticField.MyBS.GetStringDiff(namel, name);
             ulong diff2 = StaticField.MyBS.GetStringDiff(desc1l, desc1);
 
+            item.DescriptionOff += diff1;
+
             Extra.SetExtraData((int)item.NameOff, namel, SetValue(namel, name));
             Extra.SetExtraData((int)item.DescriptionOff, desc1l, desc1);
-
-            item.DescriptionOff += diff1;
 
             TextReSetOff(diff1 + diff2, i + 1);
 

@@ -132,5 +132,10 @@ namespace KuroModifyTool
         {
             mainFunc.SearchSetItem((ListBox)sender);
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            mainFunc.AppClose();
+        }
     }
 }

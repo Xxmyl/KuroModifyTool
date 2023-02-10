@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 
 namespace KuroModifyTool.KuroTable
 {
@@ -177,20 +178,18 @@ namespace KuroModifyTool.KuroTable
 
         public BottomData Extra;
 
-        private readonly string filename = "t_shop.tbl";
         //Debug
         private ItemTable TestItem;
 
-        public ShopTable(ItemTable item)
+        public ShopTable(ItemTable item) : base("t_shop.tbl")
         {
             TestItem = item;
-            Load();
         }
 
         public override void Load()
         {
             int i = 0;
-            byte[] buffer = ReadHeader(filename, ref i);
+            byte[] buffer = ReadHeader(StaticField.TBLPath + FileName, ref i);
 
             if (buffer == null)
             {
@@ -205,12 +204,20 @@ namespace KuroModifyTool.KuroTable
             TradeItems = StaticField.MyBS.GetNode(Nodes, typeof(TradeItem[]), buffer, ref i);
 
             Extra = new BottomData(Nodes, "TradeItem", buffer);
-            //DebugLog();
+            DebugLog();
         }
 
         public void DebugLog()
         {
             FileTools.LogPath = ".\\log.txt";
+
+            for(int i = 0; i < Infos.Length; i++)
+            {
+                FileTools.WriteLog(Infos[i].ID.ToString());
+                FileTools.WriteLog(":");
+                FileTools.WriteLog(Extra.GetExtraData((int)Infos[i].NameOff, typeof(string)));
+                FileTools.WriteLog("\n");
+            }
 
             for (int i = 0; i < ShopItems.Length; i++)
             {
@@ -251,7 +258,7 @@ namespace KuroModifyTool.KuroTable
                 FileTools.WriteLog(",");*/
                 /*int d1inx = ShopText.Offsets.FindIndex(o => o == Infos[i].NameOff);
                 FileTools.WriteLog(ShopText.Texts[d1inx]);
-                FileTools.WriteLog(",");*/
+                FileTools.WriteLog(",");
                 FileTools.WriteLog(ShopItems[i].Unknown1.ToString());
                 FileTools.WriteLog(",");
                 FileTools.WriteLog(ShopItems[i].Unknown2.ToString());
@@ -261,7 +268,7 @@ namespace KuroModifyTool.KuroTable
                 FileTools.WriteLog(ShopItems[i].Unknown4.ToString());
                 FileTools.WriteLog(",");
                 FileTools.WriteLog(ShopItems[i].Unknown5.ToString());
-                /*FileTools.WriteLog(",");
+                FileTools.WriteLog(",");
                 FileTools.WriteLog(Convs[i].Unknown6.ToString());
                 FileTools.WriteLog(",");
                 FileTools.WriteLog(Convs[i].Unknown7.ToString());
@@ -284,7 +291,7 @@ namespace KuroModifyTool.KuroTable
                     FileTools.WriteLog(TradeItems[i].Effects[j].RequirAmount.ToString());
                     FileTools.WriteLog(")");
                 }*/
-                FileTools.WriteLog("\n");
+                //FileTools.WriteLog("\n");
             }
 
             FileTools.CloseLog();

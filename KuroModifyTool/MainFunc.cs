@@ -80,6 +80,7 @@ namespace KuroModifyTool
             StaticField.RangeList = FileTools.GetEffectList(".\\KuroList\\RangeList.txt");
             StaticField.HCEffectList = FileTools.GetEffectList(".\\KuroList\\HCEffectList.txt");
             StaticField.SkillDic = FileTools.GetSkillDic(".\\KuroList\\SkillDic.txt");
+            StaticField.ScriptInSDic = FileTools.GetCurrencyDic(".\\KuroList\\ScriptInStructionList.txt");
 
             CurrentInx = -1;
 
@@ -183,8 +184,8 @@ namespace KuroModifyTool
 
         private void ListInit()
         {
-            DatScript dat = new DatScript();
-            dat.Load();
+            /*DatScript dat = new DatScript();
+            dat.Load();*/
 
             itemTable = new ItemTable();
 
@@ -296,6 +297,13 @@ namespace KuroModifyTool
                     MW.voiceTabI.IsEnabled = false;
                 }
             }));
+
+            StaticField.CurrentCLEF = StaticField.CLEFiles.Find(cf => cf.Name == itemTable.FileName);
+        }
+        
+        public void AppClose()
+        {
+            FileTools.JsonSave(StaticField.CLEFiles, StaticField.CLEFList);
         }
 
         public void SetTabC(TabControl tc)
@@ -307,12 +315,19 @@ namespace KuroModifyTool
 
             CurrentTabC = (tc.SelectedItem as TabItem).Header as string;
 
-            if(itemCtls == null || skillCtls == null)
+            TBLCommon currentab = GetTable();
+            if (currentab != null)
+            {
+                StaticField.CurrentCLEF = StaticField.CLEFiles.Find(cf => cf.Name == currentab.FileName);
+            }
+            
+            if (itemCtls == null || skillCtls == null)
             {
                 return;
             }
 
             ListBox lb = GetCtl<ListBox>("ItemsList");
+
             CurrentInx = lb.SelectedIndex;
         }
 
@@ -458,7 +473,8 @@ namespace KuroModifyTool
                 }
             }
 
-
+            if (GetEffList() == null)
+                return;
             cb.SelectedIndex = GetEffList().FindIndex(eff => eff.ID.Equals(CurrentEff.Text));
         }
 

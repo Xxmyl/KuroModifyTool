@@ -175,17 +175,14 @@ namespace KuroModifyTool.KuroTable
 
         public BottomData Extra;
 
-        private readonly string filename = "t_hollowcore.tbl";
-
-        public HollowCoreTable()
+        public HollowCoreTable() : base("t_hollowcore.tbl")
         {
-            Load();
         }
 
         public override void Load()
         {
             int i = 0;
-            byte[] buffer = ReadHeader(filename, ref i);
+            byte[] buffer = ReadHeader(StaticField.TBLPath + FileName, ref i);
 
             if (buffer == null)
             {
@@ -212,7 +209,10 @@ namespace KuroModifyTool.KuroTable
             for (int i = 0; i < EffTexts.Length; i++)
             {
                 FileTools.WriteLog(EffTexts[i].ID.ToString());
+                FileTools.WriteLog(":");
+                FileTools.WriteLog(Extra.GetExtraData((int)EffTexts[i].EffDescOff, typeof(string)));
                 
+
                 //int d1inx = ShardSText.Offsets.FindIndex(o => o == ShardSkills[i].DescriptionOff1);
                 //FileTools.WriteLog(ShardSText.Texts[d1inx]);
                 /*int ninx = HCText.Offsets.FindIndex(o => o == EffTexts[i].EffDescOff);
@@ -223,8 +223,8 @@ namespace KuroModifyTool.KuroTable
                 }*/
 
                 //FileTools.WriteLog("/");
-                
-                
+
+
                 /*FileTools.WriteLog(",");
                 FileTools.WriteLog(BaseParams[i].Unknown8.ToString());
                 FileTools.WriteLog(",");
@@ -277,7 +277,9 @@ namespace KuroModifyTool.KuroTable
             modify.AddRange(Extra.ExtraData);
             //modify.AddRange(ExtraData);
 
-            FileTools.BufferToFile(StaticField.TBLPath + filename, modify.ToArray());
+            byte[] data = StaticField.MyBS.CLEPack(modify.ToArray(), StaticField.CurrentCLEF);
+            FileTools.BufferToFile(StaticField.TBLPath + FileName, data);
+            //FileTools.PackTbl(StaticField.LocalTbl + filename, StaticField.TBLPath + filename);
         }
 
         public override void DataToUI(MainWindow mw, MainFunc mf, int i)
@@ -351,11 +353,11 @@ namespace KuroModifyTool.KuroTable
             ulong diff1 = StaticField.MyBS.GetStringDiff(namel, name);
             ulong diff2 = StaticField.MyBS.GetStringDiff(desc1l, desc1);
 
-            Extra.SetExtraData((int)noff, namel, name);
-            Extra.SetExtraData((int)hc.DescriptionOff, desc1l, desc1);
-
             BaseParams[inx].TextOff1 += diff1;
             BaseParams[inx].NameOff += diff1;
+
+            Extra.SetExtraData((int)noff, namel, name);
+            Extra.SetExtraData((int)hc.DescriptionOff, desc1l, desc1);
 
             TextReSetOff(diff1, diff2, inx + 1, i + 1);
 

@@ -15,9 +15,43 @@ namespace KuroModifyTool.KuroTable
 
         public bool IsDecrypt;
 
+        public string FileName;
+
+        public TBLCommon(string fn)
+        {
+            FileName = fn;
+            Init();
+            Load();
+        }
+
+        public void Init()
+        {
+            CLEFile cfile = StaticField.CLEFiles.Find(cf => cf.Name == FileName);
+
+            if(cfile == null)
+            {
+                StaticField.CLEFiles.Add(new CLEFile()
+                {
+                    Name = FileName,
+                    IsCompress = false,
+                    IsEncrypt = false,
+                    CFillCount = 0,
+                    EFillCount = 0
+                });
+
+                StaticField.CurrentCLEF = StaticField.CLEFiles.Last();
+            }
+            else
+            {
+                StaticField.CurrentCLEF = cfile;
+            }
+        }
+
         public byte[] ReadHeader(string filename, ref int i)
         {
-            byte[] buffer = FileTools.FileToBuffer(StaticField.TBLPath + filename);
+            byte[] buffer = FileTools.FileToBuffer(filename);
+            //添加拆包代码
+            buffer = StaticField.MyBS.CLEUnPack(buffer, StaticField.CurrentCLEF);
             
             Flag = new string(StaticField.MyBS.DeSerialization(typeof(char[]), buffer, ref i, new BinStreamAttr() { Length = 4 }));
 

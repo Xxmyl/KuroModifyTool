@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 
 namespace KuroModifyTool.KuroTable
 {
@@ -86,18 +87,35 @@ namespace KuroModifyTool.KuroTable
             public ulong DescriptionOff2;
         }
 
+        public SkillPowerIcon[] PowerIcons;
+
+        public class SkillPowerIcon
+        {
+            [FieldIndexAttr(Index = 0)]
+            public uint SkillID;
+
+            [FieldIndexAttr(Index = 1)]
+            public uint IconID;
+        }
+
         public SkillGetParam[] GetParams;
 
         public class SkillGetParam
         {
             [FieldIndexAttr(Index = 0)]
-            public ushort CharID;
+            public ushort Unknown1;
 
             [FieldIndexAttr(Index = 1)]
-            public ushort SkillID1;
+            public ushort Unknown2;
 
             [FieldIndexAttr(Index = 2)]
-            public ushort SkillID2;
+            public ushort Unknown3;
+
+            [FieldIndexAttr(Index = 3)]
+            public ushort Unknown4;
+
+            [FieldIndexAttr(Index = 4)]
+            public ushort Unknown5;
         }
 
         public SkillChangeParam[] ChangeParams;
@@ -130,17 +148,14 @@ namespace KuroModifyTool.KuroTable
 
         public BottomData Extra;
 
-        private readonly string filename = "t_skill.tbl";
-
-        public SkillTable()
+        public SkillTable() : base("t_skill.tbl")
         {
-            Load();
         }
 
         public override void Load()
         {
             int i = 0;
-            byte[] buffer = ReadHeader(filename, ref i);
+            byte[] buffer = ReadHeader(StaticField.TBLPath + FileName, ref i);
 
             if (buffer == null)
             {
@@ -149,6 +164,9 @@ namespace KuroModifyTool.KuroTable
 
             //SkillParam
             Skills = StaticField.MyBS.GetNode(Nodes, typeof(SkillParam[]), buffer, ref i);
+
+            //SkillPowerIcon
+            PowerIcons = StaticField.MyBS.GetNode(Nodes, typeof(SkillPowerIcon[]), buffer, ref i);
 
             //SkillGetParam
             GetParams = StaticField.MyBS.GetNode(Nodes, typeof(SkillGetParam[]), buffer, ref i);
@@ -174,13 +192,16 @@ namespace KuroModifyTool.KuroTable
             StaticField.MyBS.Serialization(Nodes, modify);
 
             StaticField.MyBS.Serialization(Skills, modify);
+            StaticField.MyBS.Serialization(PowerIcons, modify); 
             StaticField.MyBS.Serialization(GetParams, modify);
             StaticField.MyBS.Serialization(ChangeParams, modify);
             StaticField.MyBS.Serialization(GrendelParams, modify);
 
             modify.AddRange(Extra.ExtraData);
 
-            FileTools.BufferToFile(StaticField.TBLPath + filename, modify.ToArray());
+            byte[] data = StaticField.MyBS.CLEPack(modify.ToArray(), StaticField.CurrentCLEF);
+            FileTools.BufferToFile(StaticField.TBLPath + FileName, data);
+            //FileTools.PackTbl(StaticField.LocalTbl + filename, StaticField.TBLPath + filename);
         }
 
         public void DebugLog()
@@ -189,27 +210,36 @@ namespace KuroModifyTool.KuroTable
 
             for (int i = 0; i < Skills.Length; i++)
             {
-                FileTools.WriteLog(Skills[i].ID.ToString());
-                FileTools.WriteLog(":");
-
-                
-
-                /*for (int j = 0; j < Skills[i].Effects.Length; j++)
+                //FileTools.WriteLog(Skills[i].ID.ToString());
+                //FileTools.WriteLog(":");
+                //FileTools.WriteLog(Extra.GetExtraData((int)Skills[i].NameOff, typeof(string)));
+                //FileTools.WriteLog(",");
+                string a = Extra.GetExtraData((int)Skills[i].DescriptionOff2, typeof(string));
+                if (a.Contains("<c698>"))
                 {
-                    if (Skills[i].Effects[j].ID != 0)
+                    a = a.Replace("<c698>", "$");
+                    string[] arr = a.Split('$');
+                    arr[1] = arr[1].Replace("</c>", "$");
+                    string[] arr1 = arr[1].Split('$');
+                    FileTools.WriteLog(arr1[0]);
+
+                    for (int j = 0; j < Skills[i].Effects.Length; j++)
                     {
-                        FileTools.WriteLog("(");
-                        FileTools.WriteLog(Skills[i].Effects[j].ID.ToString());
-                        FileTools.WriteLog(",");
-                        FileTools.WriteLog(Skills[i].Effects[j].Param1.ToString());
-                        FileTools.WriteLog(",");
-                        FileTools.WriteLog(Skills[i].Effects[j].Param2.ToString());
-                        FileTools.WriteLog(",");
-                        FileTools.WriteLog(Skills[i].Effects[j].Param3.ToString());
-                        FileTools.WriteLog(")");
+                        if (Skills[i].Effects[j].ID != 0)
+                        {
+                            FileTools.WriteLog("(");
+                            FileTools.WriteLog(Skills[i].Effects[j].ID.ToString());
+                            FileTools.WriteLog(",");
+                            FileTools.WriteLog(Skills[i].Effects[j].Param1.ToString());
+                            FileTools.WriteLog(",");
+                            FileTools.WriteLog(Skills[i].Effects[j].Param2.ToString());
+                            FileTools.WriteLog(",");
+                            FileTools.WriteLog(Skills[i].Effects[j].Param3.ToString());
+                            FileTools.WriteLog(")");
+                        }
                     }
-                }*/
-                FileTools.WriteLog("\n");
+                    FileTools.WriteLog("\n");
+                }
             }
 
             FileTools.CloseLog();
@@ -310,12 +340,12 @@ namespace KuroModifyTool.KuroTable
             ulong diff2 = StaticField.MyBS.GetStringDiff(desc1l, desc1);
             ulong diff3 = StaticField.MyBS.GetStringDiff(desc2l, desc2);
 
+            skill.DescriptionOff1 += diff1;
+            skill.DescriptionOff2 += diff1 + diff2;
+
             Extra.SetExtraData((int)skill.NameOff, namel, name);
             Extra.SetExtraData((int)skill.DescriptionOff1, desc1l, desc1);
             Extra.SetExtraData((int)skill.DescriptionOff2, desc2l, desc2);
-
-            skill.DescriptionOff1 += diff1;
-            skill.DescriptionOff2 += diff1 + diff2;
 
             TextReSetOff(diff1 + diff2 + diff3, i + 1);
 

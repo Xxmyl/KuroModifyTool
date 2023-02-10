@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:KuroModifyTool"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
-        Title="黎轨静态修改工具" Height="900" Width="1600" WindowStartupLocation="CenterScreen" WindowState="Normal" ResizeMode="CanResize" WindowStyle="SingleBorderWindow" Icon="/img/icon.jpg" Loaded="Window_Loaded" MaxWidth="1600" MaxHeight="900" SizeToContent="Width" MinWidth="1600" MinHeight="900">
+        Title="黎轨2静态修改工具(禁止用于牟利)" Height="900" Width="1600" WindowStartupLocation="CenterScreen" WindowState="Normal" WindowStyle="SingleBorderWindow" Icon="/img/icon.jpg" Loaded="Window_Loaded" SizeToContent="Width" MinWidth="1600" MinHeight="900" MaxWidth="1600" MaxHeight="900" Closing="Window_Closing">
     <Grid>
         <Image HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Width="32" Margin="2,2,0,0" Source="/img/icon.jpg" Stretch="Fill"/>
         <Menu VerticalAlignment="Top" Height="32" Margin="40,0,0,0"/>

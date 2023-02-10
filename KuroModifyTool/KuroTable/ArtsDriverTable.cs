@@ -59,17 +59,14 @@ namespace KuroModifyTool.KuroTable
             public uint SkillID;
         }
 
-        private readonly string filename = "t_artsdriver.tbl";
-
-        public ArtsDriverTable()
+        public ArtsDriverTable() : base("t_artsdriver.tbl")
         {
-            Load();
         }
 
         public override void Load()
         {
             int i = 0;
-            byte[] buffer = ReadHeader(filename, ref i);
+            byte[] buffer = ReadHeader(StaticField.TBLPath1 + FileName, ref i);
 
             if (buffer == null)
             {
@@ -102,7 +99,9 @@ namespace KuroModifyTool.KuroTable
                 modify.AddRange(subModify);
             }
 
-            FileTools.BufferToFile(StaticField.TBLPath + filename, modify.ToArray());
+            byte[] data = StaticField.MyBS.CLEPack(modify.ToArray(), StaticField.CurrentCLEF);
+            FileTools.BufferToFile(StaticField.TBLPath1 + FileName, data);
+            //FileTools.PackTbl(StaticField.LocalTbl + filename, StaticField.TBLPath1 + filename);
         }
 
         public override void DataToUI(MainWindow mw, MainFunc mf, int i)
